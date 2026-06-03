@@ -16,6 +16,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             UserSeeder::class,
+            AreaSeeder::class,
+            ItemSeeder::class,
+            MachineSeeder::class,
+            BlueprintSeeder::class,
+            BlueprintMaterialSeeder::class,
         ]);
     }
 }

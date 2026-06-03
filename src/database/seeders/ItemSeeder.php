@@ -2,16 +2,21 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Item;
 use Illuminate\Database\Seeder;
 
 class ItemSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //
+        Item::create([
+            'name' => 'Iron Ore',
+            'description' => 'Basic raw material.',
+        ]);
+
+        Item::create([
+            'name' => 'Iron Ingot',
+            'description' => 'Processed iron material.',
+        ]);
     }
 }
