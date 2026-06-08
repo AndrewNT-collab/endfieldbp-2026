@@ -96,9 +96,20 @@
         </div>
 
         <div style="display:flex; align-items:center; justify-content:center;">
-            <img src="{{ asset('images/EFL.webp') }}"
-                 alt="EFLogo"
-                 style="width:120px; height:120px; object-fit:contain; border-radius:4px; padding:14px; border:1px solid rgba(255,255,255,0.18); background:#171717;">
+            <img id="endfieldLogo"
+                src="{{ asset('images/EFL.webp') }}"
+                alt="EFLogo"
+                onclick="logoTap()"
+                style="
+                    width:120px;
+                    height:120px;
+                    object-fit:contain;
+                    border-radius:4px;
+                    padding:14px;
+                    border:1px solid rgba(255,255,255,0.18);
+                    background:#171717;
+                    cursor:pointer;
+                ">
         </div>
     </section>
 
@@ -150,6 +161,70 @@
     </section>
 
 </main>
+
+<script>
+
+let tapCount = 0;
+let tapTimer;
+
+function logoTap()
+{
+    tapCount++;
+
+    clearTimeout(tapTimer);
+
+    tapTimer = setTimeout(() => {
+        tapCount = 0;
+    }, 2000);
+
+    if (tapCount >= 5)
+    {
+        tapCount = 0;
+
+        const popup = document.createElement("div");
+
+        popup.innerHTML = `
+            <div id="monkeyPopup"
+                style="
+                    position:fixed;
+                    inset:0;
+                    z-index:99999;
+                    background:#000;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    flex-direction:column;
+                ">
+
+                <img
+                    src="{{ asset('images/easter.jpg') }}"
+                    style="
+                        max-width:90vw;
+                        max-height:80vh;
+                        border-radius:20px;
+                    "
+                >
+
+                <h1 style="
+                    color:white;
+                    margin-top:20px;
+                    font-size:42px;
+                ">
+                    YOU DISCOVERED A MONKEY🐵
+                </h1>
+
+            </div>
+        `;
+
+        document.body.appendChild(popup);
+
+        setTimeout(() => {
+            document.getElementById("monkeyPopup").remove();
+        }, 5000);
+    }
+}
+
+</script>
 
 </body>
 </html>

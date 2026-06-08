@@ -40,11 +40,28 @@ class WebBlueprintController extends Controller
             'machine_id' => 'nullable|exists:machines,id',
             'craft_time' => 'nullable|integer|min:0',
             'notes' => 'nullable|string',
+            'materials' => 'nullable|array',
+            'materials.*.item_id' => 'nullable|exists:items,id',
+            'materials.*.amount' => 'nullable|integer|min:1',
         ]);
 
-        $validated['area_id'] = $area->id;
+        $blueprint = Blueprint::create([
+            'area_id' => $area->id,
+            'name' => $validated['name'],
+            'result_item_id' => $validated['result_item_id'] ?? null,
+            'machine_id' => $validated['machine_id'] ?? null,
+            'craft_time' => $validated['craft_time'] ?? null,
+            'notes' => $validated['notes'] ?? null,
+        ]);
 
-        Blueprint::create($validated);
+        foreach (($validated['materials'] ?? []) as $material) {
+            if (!empty($material['item_id'])) {
+                $blueprint->materials()->create([
+                    'item_id' => $material['item_id'],
+                    'amount' => $material['amount'] ?? 1,
+                ]);
+            }
+        }
 
         return redirect()
             ->route('areas.show', $area->slug)

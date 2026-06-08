@@ -26,7 +26,6 @@
     position:relative;
     overflow:hidden;
 ">
-
     <div style="
         position:absolute;
         right:0;
@@ -46,14 +45,7 @@
     "></div>
 
     <div style="display:flex; align-items:center; gap:14px; position:relative; z-index:2;">
-        <div style="
-            background:#1f1f1f;
-            color:#f5f5f5;
-            padding:10px 14px;
-            border-radius:10px;
-            font-weight:bold;
-            border:1px solid #404040;
-        ">
+        <div style="background:#1f1f1f; color:#f5f5f5; padding:10px 14px; border-radius:10px; font-weight:bold; border:1px solid #404040;">
             EB
         </div>
 
@@ -71,23 +63,11 @@
         gap:34px;
         z-index:2;
     ">
-        <a href="{{ route('dashboard') }}" style="color:#111111; text-decoration:none; font-weight:700;">
-            Dashboard
-        </a>
-
-        <a href="{{ route('items.index') }}" style="color:#111111; text-decoration:none;">
-            Blueprint DB
-        </a>
-
-        <a href="#" style="color:#111111; text-decoration:none;">
-            Map
-        </a>
-
-        <a href="#" style="color:#111111; text-decoration:none;">
-            Tracker
-        </a>
+        <a href="{{ route('dashboard') }}" style="color:#111111; text-decoration:none; font-weight:700;">Dashboard</a>
+        <a href="{{ route('items.index') }}" style="color:#111111; text-decoration:none;">Blueprint DB</a>
+        <a href="{{ route('map') }}" style="color:#111111; text-decoration:none;">Map</a>
+        <a href="#" style="color:#111111; text-decoration:none;">Tracker</a>
     </div>
-
 </nav>
 
 <main style="padding:36px; max-width:900px; margin:auto;">
@@ -115,31 +95,40 @@
 
             <div style="margin-bottom:18px;">
                 <label style="display:block; margin-bottom:8px; font-weight:bold;">
-                    Blueprint Name
+                    Blueprint Item
                 </label>
 
-                <input type="text"
-                       name="name"
-                       value="{{ old('name') }}"
-                       placeholder="Example: Ferrium Farm"
-                       required
-                       style="width:100%; box-sizing:border-box; padding:14px; border-radius:10px; border:1px solid #4a4a4a; background:#141414; color:#f5f5f5;">
-            </div>
+                <input type="hidden" name="name" id="blueprintName" value="{{ old('name') }}">
+                <input type="hidden" name="result_item_id" id="resultItemId" value="{{ old('result_item_id') }}">
 
-            <div style="margin-bottom:18px;">
-                <label style="display:block; margin-bottom:8px; font-weight:bold;">
-                    Result Item
-                </label>
+                <div style="position:relative;">
+                    <button type="button"
+                            onclick="toggleItemDropdown()"
+                            id="selectedItemButton"
+                            style="width:100%; box-sizing:border-box; padding:14px; border-radius:10px; border:1px solid #4a4a4a; background:#141414; color:#f5f5f5; display:flex; align-items:center; gap:12px; cursor:pointer; text-align:left;">
+                        <span style="color:#9ca3af;">-- Select Blueprint Item --</span>
+                    </button>
 
-                <select name="result_item_id"
-                        style="width:100%; box-sizing:border-box; padding:14px; border-radius:10px; border:1px solid #4a4a4a; background:#141414; color:#f5f5f5;">
-                    <option value="">-- Select Result Item --</option>
-                    @foreach ($items as $item)
-                        <option value="{{ $item->id }}" @selected(old('result_item_id') == $item->id)>
-                            {{ $item->name }}
-                        </option>
-                    @endforeach
-                </select>
+                    <div id="itemDropdown"
+                         style="display:none; position:absolute; z-index:20; top:58px; left:0; right:0; max-height:280px; overflow-y:auto; background:#141414; border:1px solid #4a4a4a; border-radius:10px; padding:8px;">
+                        @foreach ($items as $item)
+                            <button type="button"
+                                    onclick="selectBlueprintItem('{{ $item->id }}', @js($item->name), '{{ $item->image ? asset('storage/' . $item->image) : '' }}')"
+                                    style="width:100%; padding:10px; background:transparent; border:0; color:#f5f5f5; display:flex; align-items:center; gap:12px; cursor:pointer; text-align:left; border-radius:8px;"
+                                    onmouseover="this.style.background='#212121'"
+                                    onmouseout="this.style.background='transparent'">
+                                @if ($item->image)
+                                    <img src="{{ asset('storage/' . $item->image) }}"
+                                         style="width:42px; height:42px; object-fit:contain; background:#171717; border:1px solid #3a3a3a; border-radius:8px; padding:5px;">
+                                @else
+                                    <div style="width:42px; height:42px; display:flex; align-items:center; justify-content:center; background:#171717; border:1px solid #3a3a3a; border-radius:8px; flex-shrink:0;">?</div>
+                                @endif
+
+                                <span>{{ $item->name }}</span>
+                            </button>
+                        @endforeach
+                    </div>
+                </div>
             </div>
 
             <div style="margin-bottom:18px;">
@@ -156,6 +145,36 @@
                         </option>
                     @endforeach
                 </select>
+            </div>
+
+            <div style="margin-bottom:24px;">
+                <label style="display:block; margin-bottom:8px; font-weight:bold;">
+                    Materials
+                </label>
+
+                <div id="materialsWrapper">
+                    <div style="display:grid; grid-template-columns:1fr 120px; gap:12px; margin-bottom:12px;">
+                        <select name="materials[0][item_id]"
+                                style="width:100%; box-sizing:border-box; padding:14px; border-radius:10px; border:1px solid #4a4a4a; background:#141414; color:#f5f5f5;">
+                            <option value="">-- Select Material --</option>
+                            @foreach ($items as $item)
+                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+
+                        <input type="number"
+                               name="materials[0][amount]"
+                               min="1"
+                               placeholder="Qty"
+                               style="width:100%; box-sizing:border-box; padding:14px; border-radius:10px; border:1px solid #4a4a4a; background:#141414; color:#f5f5f5;">
+                    </div>
+                </div>
+
+                <button type="button"
+                        onclick="addMaterialRow()"
+                        style="background:#2f2f2f; color:#f5f5f5; padding:10px 14px; border-radius:10px; border:1px solid #444; font-weight:bold; cursor:pointer;">
+                    + Add Material
+                </button>
             </div>
 
             <div style="margin-bottom:18px;">
@@ -189,6 +208,71 @@
     </section>
 
 </main>
+
+<script>
+function toggleItemDropdown() {
+    const dropdown = document.getElementById('itemDropdown');
+    dropdown.style.display = dropdown.style.display === 'none' ? 'block' : 'none';
+}
+
+function selectBlueprintItem(id, name, imageUrl) {
+    document.getElementById('blueprintName').value = name;
+    document.getElementById('resultItemId').value = id;
+
+    const button = document.getElementById('selectedItemButton');
+
+    if (imageUrl) {
+        button.innerHTML = `
+            <img src="${imageUrl}" style="width:42px; height:42px; object-fit:contain; background:#171717; border:1px solid #3a3a3a; border-radius:8px; padding:5px;">
+            <strong>${name}</strong>
+        `;
+    } else {
+        button.innerHTML = `
+            <div style="width:42px; height:42px; display:flex; align-items:center; justify-content:center; background:#171717; border:1px solid #3a3a3a; border-radius:8px;">?</div>
+            <strong>${name}</strong>
+        `;
+    }
+
+    document.getElementById('itemDropdown').style.display = 'none';
+}
+
+let materialIndex = 1;
+
+function addMaterialRow() {
+    const wrapper = document.getElementById('materialsWrapper');
+
+    const row = document.createElement('div');
+    row.style = 'display:grid; grid-template-columns:1fr 120px; gap:12px; margin-bottom:12px;';
+
+    row.innerHTML = `
+        <select name="materials[${materialIndex}][item_id]"
+                style="width:100%; box-sizing:border-box; padding:14px; border-radius:10px; border:1px solid #4a4a4a; background:#141414; color:#f5f5f5;">
+            <option value="">-- Select Material --</option>
+            @foreach ($items as $item)
+                <option value="{{ $item->id }}">{{ $item->name }}</option>
+            @endforeach
+        </select>
+
+        <input type="number"
+               name="materials[${materialIndex}][amount]"
+               min="1"
+               placeholder="Qty"
+               style="width:100%; box-sizing:border-box; padding:14px; border-radius:10px; border:1px solid #4a4a4a; background:#141414; color:#f5f5f5;">
+    `;
+
+    wrapper.appendChild(row);
+    materialIndex++;
+}
+
+document.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('itemDropdown');
+    const button = document.getElementById('selectedItemButton');
+
+    if (!dropdown.contains(event.target) && !button.contains(event.target)) {
+        dropdown.style.display = 'none';
+    }
+});
+</script>
 
 </body>
 </html>

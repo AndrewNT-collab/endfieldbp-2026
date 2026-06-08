@@ -39,11 +39,11 @@
     <section style="position:relative; background:#212121; border:1px solid #3a3a3a; border-radius:18px; overflow:hidden;">
         <img src="{{ asset('images/maps/MapV.jpg') }}" alt="Valley IV Map" style="width:100%; display:block;">
 
-        <a href="{{ route('areas.show', 'valley-iv') }}" style="position:absolute; left:42%; top:48%; background:#E6EB18; color:#111111; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:bold; border:1px solid #111111;">
+        <a href="{{ route('areas.show', 'valley-iv') }}" style="position:absolute; left:32%; top:55%; background:#E6EB18; color:#111111; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:bold; border:1px solid #111111;">
             Main PAC
         </a>
 
-        <a href="{{ route('areas.show', 'sub-pac-valley-iv') }}" style="position:absolute; left:58%; top:34%; background:#212121; color:#f5f5f5; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:bold; border:1px solid #444;">
+        <a href="{{ route('areas.show', 'sub-pac-valley-iv') }}" style="position:absolute; left:60%; top:51%; background:#212121; color:#f5f5f5; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:bold; border:1px solid #444;">
             Sub PAC
         </a>
     </section>
