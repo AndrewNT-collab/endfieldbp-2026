@@ -66,7 +66,7 @@
     ">
         <a href="{{ route('dashboard') }}" style="color:#111111; text-decoration:none; font-weight:700;">Dashboard</a>
         <a href="{{ route('items.index') }}" style="color:#111111; text-decoration:none;">Blueprint DB</a>
-        <a href="#" style="color:#111111; text-decoration:none;">Map</a>
+        <a href="{{ route('map') }}" style="color:#111111; text-decoration:none;">Map</a>
         <a href="#" style="color:#111111; text-decoration:none;">Tracker</a>
     </div>
 
@@ -140,7 +140,7 @@
 
                 <div style="margin-top:18px;">
                     <a href="{{ route('areas.show', $area->slug) }}"
-                       style="background:#60a5fa; color:#020617; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:bold;">
+                       style="background:#E6EB18; color:#020617; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:bold;">
                         Open Blueprint
                     </a>
                 </div>

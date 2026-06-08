@@ -32,6 +32,18 @@ Route::get('/areas/{area:slug}/blueprints/create', [WebBlueprintController::clas
 Route::post('/areas/{area:slug}/blueprints', [WebBlueprintController::class, 'store'])
     ->name('blueprints.store');
 
+Route::get('/map', function () {
+    return view('map');
+})->name('map');
+
+Route::get('/map/valley-iv', function () {
+    return view('maps.valley-iv');
+})->name('maps.valley-iv');
+
+Route::get('/map/wuling', function () {
+    return view('maps.wuling');
+})->name('maps.wuling');
+
 Livewire::setUpdateRoute(function ($handle) {
     return Route::post(config('app.asset_prefix') . '/livewire/update', $handle);
 });
