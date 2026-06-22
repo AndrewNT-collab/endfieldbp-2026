@@ -25,7 +25,7 @@
     border-bottom:2px solid #111111;
     position:relative;
     overflow:hidden;
-">
+    
 
     <div style="
         position:absolute;
@@ -43,7 +43,7 @@
         clip-path:polygon(18% 0, 100% 0, 100% 100%, 0 100%);
         pointer-events:none;
         z-index:1;
-    "></div>
+    </div>
 
     <div style="display:flex; align-items:center; gap:14px; position:relative; z-index:2;">
         <div style="background:#1f1f1f; color:#f5f5f5; padding:10px 14px; border-radius:10px; font-weight:bold; border:1px solid #404040;">
@@ -75,27 +75,114 @@
 <main style="padding:36px; max-width:1180px; margin:auto;">
 
     <section style="background:#212121; border:1px solid #3a3a3a; border-radius:18px; padding:28px; display:flex; justify-content:space-between; align-items:center; margin-bottom:34px;">
-        <div style="display:flex; gap:22px; align-items:center;">
-            <div style="width:80px; height:80px; border-radius:16px; background:#2a2a2a; color:#d4d4d4; display:flex; align-items:center; justify-content:center; font-size:34px; border:1px solid #404040;">
+        <a href="{{ route('profile.edit') }}"
+        style="
+            display:flex;
+            gap:22px;
+            align-items:center;
+            text-decoration:none;
+            color:#f5f5f5;
+        ">
+
+            <div style="
+                width:80px;
+                height:80px;
+                border-radius:16px;
+                background:#2a2a2a;
+                color:#d4d4d4;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size:34px;
+                border:1px solid #404040;
+            ">
                 👤
             </div>
 
             <div>
-                <h1 style="margin:0 0 8px; font-size:28px;">Endministrator</h1>
 
-                <p style="margin:0; color:#a3a3a3;">
-                    UID: 100-000-000 · Asia Server
+                <h1 style="
+                    margin:0 0 8px;
+                    font-size:28px;
+                ">
+                    {{ auth()->user()->name }}
+                </h1>
+
+                <p style="
+                    margin:0;
+                    color:#a3a3a3;
+                ">
+                    UID: {{ auth()->user()->uid }}
+                    ·
+                    {{ auth()->user()->server }}
                 </p>
 
                 <div style="margin-top:12px;">
-                    <span style="background:#2f2f2f; color:#f5f5f5; padding:6px 10px; border-radius:999px; font-size:13px; border:1px solid #444;">Valley IV</span>
-                    <span style="background:#2f2f2f; color:#f5f5f5; padding:6px 10px; border-radius:999px; font-size:13px; border:1px solid #444;">AIC Active</span>
-                    <span style="background:#2f2f2f; color:#f5f5f5; padding:6px 10px; border-radius:999px; font-size:13px; border:1px solid #444;">Patch 1.2</span>
+
+                    <span style="
+                        background:#2f2f2f;
+                        color:#f5f5f5;
+                        padding:6px 10px;
+                        border-radius:999px;
+                        font-size:13px;
+                        border:1px solid #444;
+                    ">
+                        {{ auth()->user()->tag1 }}
+                    </span>
+
+                    <span style="
+                        background:#2f2f2f;
+                        color:#f5f5f5;
+                        padding:6px 10px;
+                        border-radius:999px;
+                        font-size:13px;
+                        border:1px solid #444;
+                    ">
+                        {{ auth()->user()->tag2 }}
+                    </span>
+
+                    <span style="
+                        background:#2f2f2f;
+                        color:#f5f5f5;
+                        padding:6px 10px;
+                        border-radius:999px;
+                        font-size:13px;
+                        border:1px solid #444;
+                    ">
+                        {{ auth()->user()->tag3 }}
+                    </span>
+
+                </div>
+
+            </div>
+
+        </a>
+
+            <div>
+                <h1>
+                {{ session('username','Endministrator') }}
+                </h1>
+
+                <p style="margin:0;color:#a3a3a3;">
+                UID: {{ session('uid','100-000-000') }}
+                · {{ session('server','Asia Server') }}
+                </p>
+
+                <div style="margin-top:12px;">
+                    <span> {{ session('tag1','Valley IV') }} </span>
+                    <span> {{ session('tag2','AIC Active') }} </span>
+                    <span> {{ session('tag3','Patch 1.2') }} </span>
                 </div>
             </div>
         </div>
 
-        <div style="display:flex; align-items:center; justify-content:center;">
+        <div style="
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        gap:15px;
+        ">
+
             <img id="endfieldLogo"
                 src="{{ asset('images/EFL.webp') }}"
                 alt="EFLogo"
@@ -110,6 +197,19 @@
                     background:#171717;
                     cursor:pointer;
                 ">
+
+            <a href="{{ route('profile.edit') }}"
+            style="
+                    background:#E6EB18;
+                    color:#111;
+                    padding:10px 16px;
+                    border-radius:10px;
+                    text-decoration:none;
+                    font-weight:bold;
+            ">
+            ⚙ Profile
+            </a>
+
         </div>
     </section>
 

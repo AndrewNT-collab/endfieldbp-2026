@@ -5,6 +5,7 @@ use Livewire\Livewire;
 use App\Http\Controllers\WebItemController;
 use App\Http\Controllers\WebBlueprintController;
 use App\Http\Controllers\WebAreaController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     $areas = \App\Models\Area::with([
@@ -43,6 +44,14 @@ Route::get('/map/valley-iv', function () {
 Route::get('/map/wuling', function () {
     return view('maps.wuling');
 })->name('maps.wuling');
+
+Route::get('/profile', [ProfileController::class, 'edit'])
+    ->name('profile.edit');
+
+Route::post('/profile', [ProfileController::class, 'update'])
+    ->name('profile.update');
+
+Route::get('/profile/edit', function () { return view('profile.edit'); })->name('profile.edit');
 
 Livewire::setUpdateRoute(function ($handle) {
     return Route::post(config('app.asset_prefix') . '/livewire/update', $handle);
