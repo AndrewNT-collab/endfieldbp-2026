@@ -25,7 +25,7 @@
     border-bottom:2px solid #111111;
     position:relative;
     overflow:hidden;
-    
+">
 
     <div style="
         position:absolute;
@@ -43,7 +43,7 @@
         clip-path:polygon(18% 0, 100% 0, 100% 100%, 0 100%);
         pointer-events:none;
         z-index:1;
-    </div>
+    "></div>
 
     <div style="display:flex; align-items:center; gap:14px; position:relative; z-index:2;">
         <div style="background:#1f1f1f; color:#f5f5f5; padding:10px 14px; border-radius:10px; font-weight:bold; border:1px solid #404040;">
@@ -75,15 +75,19 @@
 <main style="padding:36px; max-width:1180px; margin:auto;">
 
     <section style="background:#212121; border:1px solid #3a3a3a; border-radius:18px; padding:28px; display:flex; justify-content:space-between; align-items:center; margin-bottom:34px;">
-        <a href="{{ route('profile.edit') }}"
-        style="
-            display:flex;
-            gap:22px;
-            align-items:center;
-            text-decoration:none;
-            color:#f5f5f5;
-        ">
+        <div style="display:flex; gap:22px; align-items:center;">
 
+        @if(session('avatar'))
+            <img
+                src="{{ asset('storage/' . session('avatar')) }}"
+                style="
+                    width:80px;
+                    height:80px;
+                    border-radius:16px;
+                    object-fit:cover;
+                    border:1px solid #404040;
+                ">
+        @else
             <div style="
                 width:80px;
                 height:80px;
@@ -98,23 +102,17 @@
             ">
                 👤
             </div>
+        @endif
 
             <div>
-
-                <h1 style="
-                    margin:0 0 8px;
-                    font-size:28px;
-                ">
-                    {{ auth()->user()->name }}
+                <h1 style="margin:0 0 8px; font-size:28px;">
+                    {{ session('username', 'Endministrator') }}
                 </h1>
 
-                <p style="
-                    margin:0;
-                    color:#a3a3a3;
-                ">
-                    UID: {{ auth()->user()->uid }}
+                <p style="margin:0; color:#a3a3a3;">
+                    UID: {{ session('uid', '100-000-000') }}
                     ·
-                    {{ auth()->user()->server }}
+                    {{ session('server', 'Asia Server') }}
                 </p>
 
                 <div style="margin-top:12px;">
@@ -127,7 +125,7 @@
                         font-size:13px;
                         border:1px solid #444;
                     ">
-                        {{ auth()->user()->tag1 }}
+                        {{ session('tag1', 'Valley IV') }}
                     </span>
 
                     <span style="
@@ -138,7 +136,7 @@
                         font-size:13px;
                         border:1px solid #444;
                     ">
-                        {{ auth()->user()->tag2 }}
+                        {{ session('tag2', 'AIC Active') }}
                     </span>
 
                     <span style="
@@ -149,40 +147,14 @@
                         font-size:13px;
                         border:1px solid #444;
                     ">
-                        {{ auth()->user()->tag3 }}
+                        {{ session('tag3', 'Patch 1.2') }}
                     </span>
 
-                </div>
-
-            </div>
-
-        </a>
-
-            <div>
-                <h1>
-                {{ session('username','Endministrator') }}
-                </h1>
-
-                <p style="margin:0;color:#a3a3a3;">
-                UID: {{ session('uid','100-000-000') }}
-                · {{ session('server','Asia Server') }}
-                </p>
-
-                <div style="margin-top:12px;">
-                    <span> {{ session('tag1','Valley IV') }} </span>
-                    <span> {{ session('tag2','AIC Active') }} </span>
-                    <span> {{ session('tag3','Patch 1.2') }} </span>
                 </div>
             </div>
         </div>
 
-        <div style="
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        gap:15px;
-        ">
-
+        <div style="display:flex; align-items:center; justify-content:center;">
             <img id="endfieldLogo"
                 src="{{ asset('images/EFL.webp') }}"
                 alt="EFLogo"
@@ -197,19 +169,6 @@
                     background:#171717;
                     cursor:pointer;
                 ">
-
-            <a href="{{ route('profile.edit') }}"
-            style="
-                    background:#E6EB18;
-                    color:#111;
-                    padding:10px 16px;
-                    border-radius:10px;
-                    text-decoration:none;
-                    font-weight:bold;
-            ">
-            ⚙ Profile
-            </a>
-
         </div>
     </section>
 
@@ -239,7 +198,13 @@
                                 <strong style="color:#f5f5f5;">{{ $blueprint->name }}</strong><br>
                                 <small>
                                     Result: {{ $blueprint->resultItem->name ?? '-' }} |
-                                    Machine: {{ $blueprint->machine->name ?? '-' }} |
+                                    Machines:
+                                    @if($blueprint->machines->count())
+                                        {{ $blueprint->machines->pluck('name')->join(', ') }}
+                                    @else
+                                        -
+                                    @endif
+                                    |
                                     Time: {{ $blueprint->craft_time ?? '-' }}s
                                 </small>
                             </div>
@@ -267,18 +232,15 @@
 let tapCount = 0;
 let tapTimer;
 
-function logoTap()
-{
+function logoTap() {
     tapCount++;
 
     clearTimeout(tapTimer);
-
     tapTimer = setTimeout(() => {
         tapCount = 0;
-    }, 2000);
+    }, 2000); 
 
-    if (tapCount >= 5)
-    {
+    if (tapCount >= 5) {
         tapCount = 0;
 
         const popup = document.createElement("div");
@@ -300,7 +262,7 @@ function logoTap()
                     src="{{ asset('images/easter.jpg') }}"
                     style="
                         max-width:90vw;
-                        max-height:80vh;
+                        max-height:80vh; /* Perbaikan spasi */
                         border-radius:20px;
                     "
                 >
@@ -310,7 +272,7 @@ function logoTap()
                     margin-top:20px;
                     font-size:42px;
                 ">
-                    YOU DISCOVERED A MONKEY🐵
+                    🐵 YOU FOUND A MONKEY 🐵
                 </h1>
 
             </div>
@@ -319,8 +281,11 @@ function logoTap()
         document.body.appendChild(popup);
 
         setTimeout(() => {
-            document.getElementById("monkeyPopup").remove();
-        }, 5000);
+            const existingPopup = document.getElementById("monkeyPopup");
+            if (existingPopup) {
+                existingPopup.parentElement.remove();
+            }
+        }, 1000);
     }
 }
 

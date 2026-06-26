@@ -12,24 +12,42 @@ class WebBlueprintController extends Controller
 {
     public function index()
     {
-        $blueprints = Blueprint::with(['resultItem', 'machine', 'materials.item'])->get();
+        $blueprints = Blueprint::with(['resultItem', 'machines', 'materials.item'])->get();
 
         return view('blueprints.index', compact('blueprints'));
     }
 
     public function show(Blueprint $blueprint)
     {
-        $blueprint->load(['resultItem', 'machine', 'materials.item']);
+        $blueprint->load(['resultItem', 'machines', 'materials.item']);
 
         return view('blueprints.show', compact('blueprint'));
     }
 
     public function create(Area $area)
     {
-        $items = Item::orderBy('name')->get();
+        $craftableItems = Item::whereIn('category', [
+            'processed_material',
+            'final_product'
+        ])
+        ->orderBy('name')
+        ->get();
+
+        $materialItems = Item::whereIn('category', [
+            'raw_material',
+            'processed_material'
+        ])
+        ->orderBy('name')
+        ->get();
+
         $machines = Machine::orderBy('name')->get();
 
-        return view('blueprints.create', compact('area', 'items', 'machines'));
+        return view('blueprints.create', compact(
+            'area',
+            'craftableItems',
+            'materialItems',
+            'machines'
+        ));
     }
 
     public function store(Request $request, Area $area)
@@ -37,7 +55,8 @@ class WebBlueprintController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'result_item_id' => 'nullable|exists:items,id',
-            'machine_id' => 'nullable|exists:machines,id',
+            'machines' => 'nullable|array',
+            'machines.*' => 'exists:machines,id',
             'craft_time' => 'nullable|integer|min:0',
             'notes' => 'nullable|string',
             'materials' => 'nullable|array',
@@ -49,7 +68,6 @@ class WebBlueprintController extends Controller
             'area_id' => $area->id,
             'name' => $validated['name'],
             'result_item_id' => $validated['result_item_id'] ?? null,
-            'machine_id' => $validated['machine_id'] ?? null,
             'craft_time' => $validated['craft_time'] ?? null,
             'notes' => $validated['notes'] ?? null,
         ]);
@@ -61,6 +79,10 @@ class WebBlueprintController extends Controller
                     'amount' => $material['amount'] ?? 1,
                 ]);
             }
+        }
+        
+        if (!empty($validated['machines'])) {
+            $blueprint->machines()->sync($validated['machines']);
         }
 
         return redirect()

@@ -29,11 +29,14 @@ class Blueprint extends Model
         return $this->belongsTo(Item::class, 'result_item_id');
     }
 
-    public function machine()
+    public function machines()
     {
-        return $this->belongsTo(Machine::class);
+        return $this->belongsToMany(
+            Machine::class,
+            'blueprint_machine'
+        );
     }
-
+    
     public function materials()
     {
         return $this->hasMany(BlueprintMaterial::class);

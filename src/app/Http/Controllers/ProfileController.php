@@ -13,7 +13,15 @@ class ProfileController extends Controller
 
     public function update(Request $request)
     {
+        $avatar = session('avatar');
+
+        if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar')
+                ->store('avatars', 'public');
+        }
+
         session([
+            'avatar' => $avatar,
             'username' => $request->username,
             'uid' => $request->uid,
             'server' => $request->server,
@@ -22,7 +30,8 @@ class ProfileController extends Controller
             'tag3' => $request->tag3,
         ]);
 
-        return redirect('/')
+        return redirect()
+            ->route('profile.edit')
             ->with('success', 'Profile updated.');
     }
 }

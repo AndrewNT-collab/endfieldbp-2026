@@ -111,7 +111,7 @@
 
                     <div id="itemDropdown"
                          style="display:none; position:absolute; z-index:20; top:58px; left:0; right:0; max-height:280px; overflow-y:auto; background:#141414; border:1px solid #4a4a4a; border-radius:10px; padding:8px;">
-                        @foreach ($items as $item)
+                        @foreach ($craftableItems as $item)
                             <button type="button"
                                     onclick="selectBlueprintItem('{{ $item->id }}', @js($item->name), '{{ $item->image ? asset('storage/' . $item->image) : '' }}')"
                                     style="width:100%; padding:10px; background:transparent; border:0; color:#f5f5f5; display:flex; align-items:center; gap:12px; cursor:pointer; text-align:left; border-radius:8px;"
@@ -131,20 +131,51 @@
                 </div>
             </div>
 
-            <div style="margin-bottom:18px;">
+            <div style="margin-bottom:24px;">
                 <label style="display:block; margin-bottom:8px; font-weight:bold;">
-                    Machine
+                    Machines
                 </label>
 
-                <select name="machine_id"
-                        style="width:100%; box-sizing:border-box; padding:14px; border-radius:10px; border:1px solid #4a4a4a; background:#141414; color:#f5f5f5;">
-                    <option value="">-- Select Machine --</option>
-                    @foreach ($machines as $machine)
-                        <option value="{{ $machine->id }}" @selected(old('machine_id') == $machine->id)>
-                            {{ $machine->name }}
-                        </option>
-                    @endforeach
-                </select>
+                <div id="machinesWrapper">
+
+                    <div style="margin-bottom:12px;">
+                        <select name="machines[]"
+                            style="
+                            width:100%;
+                            box-sizing:border-box;
+                            padding:14px;
+                            border-radius:10px;
+                            border:1px solid #4a4a4a;
+                            background:#141414;
+                            color:#f5f5f5;
+                            ">
+                            <option value="">-- Select Machine --</option>
+
+                            @foreach ($machines as $machine)
+                                <option value="{{ $machine->id }}">
+                                    {{ $machine->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                </div>
+
+                <button
+                    type="button"
+                    onclick="addMachineRow()"
+                    style="
+                    background:#2f2f2f;
+                    color:#f5f5f5;
+                    padding:10px 14px;
+                    border-radius:10px;
+                    border:1px solid #444;
+                    font-weight:bold;
+                    cursor:pointer;
+                    ">
+                    + Add Machine
+                </button>
+
             </div>
 
             <div style="margin-bottom:24px;">
@@ -157,7 +188,7 @@
                         <select name="materials[0][item_id]"
                                 style="width:100%; box-sizing:border-box; padding:14px; border-radius:10px; border:1px solid #4a4a4a; background:#141414; color:#f5f5f5;">
                             <option value="">-- Select Material --</option>
-                            @foreach ($items as $item)
+                            @foreach ($materialItems as $item)
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                             @endforeach
                         </select>
@@ -248,7 +279,7 @@ function addMaterialRow() {
         <select name="materials[${materialIndex}][item_id]"
                 style="width:100%; box-sizing:border-box; padding:14px; border-radius:10px; border:1px solid #4a4a4a; background:#141414; color:#f5f5f5;">
             <option value="">-- Select Material --</option>
-            @foreach ($items as $item)
+            @foreach ($materialItems as $item)
                 <option value="{{ $item->id }}">{{ $item->name }}</option>
             @endforeach
         </select>
@@ -262,6 +293,38 @@ function addMaterialRow() {
 
     wrapper.appendChild(row);
     materialIndex++;
+}
+
+function addMachineRow()
+{
+    const wrapper = document.getElementById('machinesWrapper');
+
+    const row = document.createElement('div');
+
+    row.style.marginBottom = '12px';
+
+    row.innerHTML = `
+        <select name="machines[]"
+            style="
+            width:100%;
+            box-sizing:border-box;
+            padding:14px;
+            border-radius:10px;
+            border:1px solid #4a4a4a;
+            background:#141414;
+            color:#f5f5f5;
+            ">
+            <option value="">-- Select Machine --</option>
+
+            @foreach ($machines as $machine)
+                <option value="{{ $machine->id }}">
+                    {{ $machine->name }}
+                </option>
+            @endforeach
+        </select>
+    `;
+
+    wrapper.appendChild(row);
 }
 
 document.addEventListener('click', function(event) {

@@ -7,11 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Machine extends Model
 {
-    /** @use HasFactory<\Database\Factories\MachineFactory> */
     use HasFactory;
 
     protected $fillable = [
-    'name',
-    'description',
+        'name',
+        'description',
     ];
+
+    public function blueprints()
+    {
+        return $this->belongsToMany(
+            Blueprint::class,
+            'blueprint_machine'
+        );
+    }
 }
