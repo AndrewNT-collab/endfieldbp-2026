@@ -10,7 +10,7 @@ use App\Http\Controllers\ProfileController;
 Route::get('/', function () {
     $areas = \App\Models\Area::with([
         'blueprints.resultItem',
-        'blueprints.machine',
+        'blueprints.machines',
     ])->withCount('blueprints')->get();
     return view('dashboard', compact('areas'));
 })->name('dashboard');

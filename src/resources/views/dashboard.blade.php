@@ -197,7 +197,7 @@
                             <div style="margin-bottom:12px;">
                                 <strong style="color:#f5f5f5;">{{ $blueprint->name }}</strong><br>
                                 <small>
-                                    Result: {{ $blueprint->resultItem->name ?? '-' }} |
+                                    Result: {{ $blueprint->resultItem?->name ?? '-' }} |
                                     Machines:
                                     @if($blueprint->machines->count())
                                         {{ $blueprint->machines->pluck('name')->join(', ') }}

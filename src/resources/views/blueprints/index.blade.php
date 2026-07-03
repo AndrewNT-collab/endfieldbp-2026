@@ -69,7 +69,7 @@
                     </div>
 
                     <span style="background:#dbeafe; color:#1e3a8a; padding:7px 12px; border-radius:999px; font-size:13px; font-weight:bold;">
-                        {{ $blueprint->machine->name ?? 'No Machine' }}
+                        {{ $blueprint->machines->pluck('name')->join(', ') ?: 'No Machine' }}
                     </span>
                 </div>
 
@@ -119,7 +119,7 @@
                         <br><br>
                         ↓
                         <br>
-                        ⚙️ {{ $blueprint->machine->name ?? 'No Machine' }}
+                        ⚙️ {{ $blueprint->machines->pluck('name')->join(', ') ?: 'No Machine' }}
                         <br>
                         ↓
                         <br>

@@ -46,11 +46,13 @@ class BlueprintResource extends Resource
                 ->preload()
                 ->label('Result Item'),
 
-            Forms\Components\Select::make('machine_id')
-                ->relationship('machine', 'name')
+            // PERBAIKAN DI SINI: relasi diubah menjadi 'machines', tambah multiple()
+            Forms\Components\Select::make('machines')
+                ->relationship('machines', 'name')
+                ->multiple()
                 ->searchable()
                 ->preload()
-                ->label('Machine'),
+                ->label('Machines'),
 
             Forms\Components\TextInput::make('craft_time')
                 ->numeric()
@@ -68,23 +70,23 @@ class BlueprintResource extends Resource
             Forms\Components\Repeater::make('materials')
                 ->relationship()
                 ->schema([
-            Forms\Components\Select::make('item_id')
-                ->relationship('item', 'name')
-                ->searchable()
-                ->preload()
-                ->required()
-                ->label('Material Item'),
+                    Forms\Components\Select::make('item_id')
+                        ->relationship('item', 'name')
+                        ->searchable()
+                        ->preload()
+                        ->required()
+                        ->label('Material Item'),
 
-            Forms\Components\TextInput::make('amount')
-                ->numeric()
-                ->required()
-                ->minValue(1)
-                ->label('Amount'),
-            ])  
-            ->columns(2)
-            ->defaultItems(1)
-            ->addActionLabel('Add Material')
-            ->columnSpanFull(),
+                    Forms\Components\TextInput::make('amount')
+                        ->numeric()
+                        ->required()
+                        ->minValue(1)
+                        ->label('Amount'),
+                ])  
+                ->columns(2)
+                ->defaultItems(1)
+                ->addActionLabel('Add Material')
+                ->columnSpanFull(),
         ]);
     }
 
@@ -95,7 +97,13 @@ class BlueprintResource extends Resource
             Tables\Columns\TextColumn::make('name')->searchable()->sortable(),
             Tables\Columns\TextColumn::make('area.name')->label('Area')->searchable(),
             Tables\Columns\TextColumn::make('resultItem.name')->label('Result Item')->searchable(),
-            Tables\Columns\TextColumn::make('machine.name')->label('Machine')->searchable(),
+            
+            // PERBAIKAN DI SINI: 'machine.name' diubah jadi 'machines.name' dan aku tambahkan ->badge() biar tampilannya cantik kalau mesinnya lebih dari 1
+            Tables\Columns\TextColumn::make('machines.name')
+                ->label('Machines')
+                ->searchable()
+                ->badge(),
+
             Tables\Columns\TextColumn::make('craft_time')->label('Time')->sortable(),
             Tables\Columns\ImageColumn::make('image'),
             Tables\Columns\TextColumn::make('created_at')->dateTime()->sortable(),

@@ -15,7 +15,6 @@ class Blueprint extends Model
         'image',
         'notes',
         'result_item_id',
-        'machine_id',
         'craft_time',
     ];
 
@@ -31,12 +30,9 @@ class Blueprint extends Model
 
     public function machines()
     {
-        return $this->belongsToMany(
-            Machine::class,
-            'blueprint_machine'
-        );
+        return $this->belongsToMany(Machine::class, 'blueprint_machine');
     }
-    
+
     public function materials()
     {
         return $this->hasMany(BlueprintMaterial::class);

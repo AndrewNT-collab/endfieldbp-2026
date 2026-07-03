@@ -8,7 +8,7 @@ class WebAreaController extends Controller
 {
     public function show(Area $area)
     {
-        $area->load(['blueprints.resultItem', 'blueprints.machine']);
+        $area->load(['blueprints.resultItem', 'blueprints.machines']);
 
         return view('areas.show', compact('area'));
     }
