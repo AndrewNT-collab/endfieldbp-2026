@@ -65,7 +65,7 @@
         z-index:2;
     ">
         <a href="{{ route('dashboard') }}" style="color:#111111; text-decoration:none; font-weight:700;">Dashboard</a>
-        <a href="{{ route('items.index') }}" style="color:#111111; text-decoration:none;">Blueprint DB</a>
+        <a href="{{ route('items.index') }}" style="color:#111111; text-decoration:none;">Factory DB</a>
         <a href="{{ route('map') }}" style="color:#111111; text-decoration:none;">Map</a>
         <a href="#" style="color:#111111; text-decoration:none;">Tracker</a>
     </div>

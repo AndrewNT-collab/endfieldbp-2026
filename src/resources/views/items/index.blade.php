@@ -1,50 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Endfield Blueprint System</title>
+    <title>Factory DB</title>
 </head>
 
-<body style="background:#0f172a; color:white; font-family:sans-serif; padding:40px;">
+<body style="
+background:#101010;
+color:white;
+font-family:Arial;
+padding:40px;
+">
 
-    <h1 style="font-size:40px; margin-bottom:30px;">
-        Endfield Factory Blueprint System
-    </h1>
+<h1 style="
+font-size:42px;
+margin-bottom:30px;
+">
+Factory Database
+</h1>
 
-    @foreach ($items as $item)
+<div style="
+display:grid;
+grid-template-columns:repeat(auto-fill,100px);
+gap:16px;
+">
 
-        <a href="{{ route('items.show', $item) }}" style="
-            display:block;
-            background:#1e293b;
-            padding:20px;
-            border-radius:12px;
-            margin-bottom:20px;
-            color:white;
-            text-decoration:none;
-        ">
+@foreach($items as $item)
 
-            <h2 style="font-size:28px;">
-                {{ $item->name }}
-            </h2>
+<a
+href="{{ route('items.show',$item) }}"
+style="
+width:100px;
+height:100px;
+background:#1a1a1a;
+border:1px solid #333;
+border-radius:10px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-decoration:none;
+overflow:hidden;
+"
+>
 
-            <p>
-                {{ $item->category }}
-            </p>
+@if($item->image)
 
-            <p style="margin-top:10px;">
-                {{ $item->description }}
-            </p>
+<img
+src="{{ asset('storage/'.$item->image) }}"
+style="
+width:100%;
+height:100%;
+object-fit:cover;
+">
 
-            <p style="margin-top:10px; color:#94a3b8;">
-                Source: {{ $item->source }}
-            </p>
+@else
 
-            <p style="color:#94a3b8;">
-                Location: {{ $item->location }}
-            </p>
+<div style="
+font-size:12px;
+text-align:center;
+padding:5px;
+color:white;
+">
+{{ $item->name }}
+</div>
 
-        </a>
+@endif
 
-    @endforeach
+</a>
+
+@endforeach
+
+</div>
 
 </body>
 </html>
