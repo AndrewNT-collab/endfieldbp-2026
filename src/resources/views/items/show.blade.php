@@ -16,6 +16,20 @@ padding:40px;
 max-width:1400px;
 margin:auto;
 ">
+    <a href="{{ route('items.index') }}"
+    style="
+    display:inline-block;
+    margin-bottom:30px;
+    padding:12px 24px;
+    background:#1b1b1b;
+    color:white;
+    text-decoration:none;
+    border:1px solid #333;
+    border-radius:12px;
+    transition:.2s;
+    ">
+        ← Return
+    </a>
 
     <div style="
     display:flex;
@@ -26,8 +40,10 @@ margin:auto;
         <div style="flex:1;">
 
             <h1 style="
-            font-size:56px;
+            font-size:72px;
+            font-weight:700;
             margin:0;
+            letter-spacing:-2px;
             ">
                 {{ $item->name }}
             </h1>
@@ -40,11 +56,12 @@ margin:auto;
             </p>
 
             <div style="
-            margin-top:30px;
-            border:1px solid #E6EB18;
-            padding:20px;
-            border-radius:8px;
-            background:#151515;
+            margin-top:40px;
+            border:1px solid #d9ff00;
+            padding:28px;
+            border-radius:16px;
+            background:#111;
+            min-height:120px;
             ">
                 <h3>Item Description</h3>
 
@@ -56,11 +73,13 @@ margin:auto;
         </div>
 
         <div style="
-        width:320px;
-        background:#181818;
-        border:1px solid #444;
-        padding:20px;
+        width:350px;
+        background:#111;
+        border:1px solid #333;
+        padding:24px;
         text-align:center;
+        border-radius:12px;
+        box-shadow:0 0 20px rgba(0,0,0,.4);
         ">
 
             @if($item->image)
@@ -100,88 +119,212 @@ margin:auto;
 
     </div>
 
-
     @if($item->producedBy)
 
     <div style="
-    margin-top:50px;
-    background:#151515;
-    padding:25px;
-    border-radius:10px;
+    margin-top:60px;
+    background:#111;
+    padding:30px;
+    border-radius:20px;
+    border:1px solid #222;
     ">
 
-        <h2>
+        <h2 style="
+        font-size:32px;
+        margin-bottom:30px;
+        ">
             Blueprint Tree
         </h2>
 
         <div style="
-        display:flex;
-        align-items:center;
-        gap:20px;
-        flex-wrap:wrap;
-        margin-top:30px;
+        overflow-x:auto;
+        padding-bottom:20px;
         ">
 
-            @foreach($item->producedBy->materials as $material)
+            <div style="
+            display:flex;
+            align-items:center;
+            gap:30px;
+            min-width:max-content;
+            ">
 
+                {{-- Materials --}}
+                @foreach($item->producedBy->materials as $material)
+
+                    <div style="
+                    width:180px;
+                    height:170px;
+                    background:linear-gradient(
+                        180deg,
+                        #242424,
+                        #171717
+                    );
+                    border:1px solid #353535;
+                    border-radius:18px;
+                    display:flex;
+                    flex-direction:column;
+                    justify-content:center;
+                    align-items:center;
+                    box-shadow:0 0 25px rgba(0,0,0,.5);
+                    ">
+
+                        @if($material->item->image)
+                            <img
+                            src="{{ asset('storage/'.$material->item->image) }}"
+                            style="
+                            width:60px;
+                            height:60px;
+                            object-fit:contain;
+                            margin-bottom:10px;
+                            ">
+                        @endif
+
+                        <div style="
+                        font-size:26px;
+                        font-weight:bold;
+                        color:#E6EB18;
+                        ">
+                            {{ $material->amount }}x
+                        </div>
+
+                        <div style="
+                        margin-top:8px;
+                        text-align:center;
+                        font-size:18px;
+                        ">
+                            {{ $material->item->name }}
+                        </div>
+
+                    </div>
+
+                    @if(!$loop->last)
+                        <div style="
+                        font-size:70px;
+                        font-weight:bold;
+                        color:#E6EB18;
+                        ">
+                            +
+                        </div>
+                    @endif
+
+                @endforeach
+
+                {{-- Arrow --}}
                 <div style="
-                background:#222;
-                padding:15px;
-                border-radius:10px;
+                font-size:70px;
+                font-weight:bold;
+                color:#E6EB18;
+                text-shadow:
+                0 0 15px rgba(230,235,24,.4);
                 ">
-                    {{ $material->amount }}x
-                    <br>
-                    {{ $material->item->name }}
+                    ➜
                 </div>
 
+                {{-- Machine --}}
                 <div style="
-                font-size:30px;
+                width:240px;
+                height:190px;
+                background:linear-gradient(
+                    180deg,
+                    #303030,
+                    #1f1f1f
+                );
+                border:1px solid #444;
+                border-radius:20px;
+                display:flex;
+                flex-direction:column;
+                justify-content:center;
+                align-items:center;
+                box-shadow:
+                0 0 30px rgba(0,0,0,.5);
                 ">
-                    +
+
+                @php
+                    $machine = $item->producedBy->machines->first();
+                @endphp
+
+                    @if($machine && $machine->image)
+                        <img
+                        src="{{ asset('storage/'.$machine->image) }}"
+                        style="
+                        width:70px;
+                        height:70px;
+                        object-fit:contain;
+                        margin-bottom:10px;
+                        ">
+                    @else
+                        <div style="
+                        font-size:42px;
+                        margin-bottom:10px;
+                        ">
+                            🏭
+                        </div>
+                    @endif
+
+                    <div style="
+                    font-size:22px;
+                    font-weight:bold;
+                    text-align:center;
+                    ">
+                        {{ $item->producedBy->machines->pluck('name')->join(', ') }}
+                    </div>
+
+                    <div style="
+                    margin-top:12px;
+                    color:#bbb;
+                    ">
+                        {{ $item->producedBy->craft_time }} sec
+                    </div>
+
                 </div>
 
-            @endforeach
+                {{-- Arrow --}}
+                <div style="
+                font-size:70px;
+                color:#E6EB18;
+                ">
+                    ➜
+                </div>
 
-            <div style="
-            font-size:50px;
-            color:#E6EB18;
-            ">
-                ↓
-            </div>
+                {{-- Result --}}
+                <div style="
+                width:220px;
+                height:170px;
+                background:linear-gradient(
+                    180deg,
+                    #2d2d2d,
+                    #1f1f1f
+                );
+                border:1px solid #555;
+                border-radius:18px;
+                display:flex;
+                flex-direction:column;
+                justify-content:center;
+                align-items:center;
+                box-shadow:0 0 25px rgba(0,0,0,.5);
+                ">
 
-            <div style="
-            background:#333;
-            padding:20px;
-            border-radius:10px;
-            ">
-                ⚙️
+                    @if($item->image)
+                        <img
+                        src="{{ asset('storage/'.$item->image) }}"
+                        style="
+                        width:70px;
+                        height:70px;
+                        object-fit:contain;
+                        margin-bottom:10px;
+                        ">
+                    @endif
 
-                <br><br>
+                    <div style="
+                    font-size:22px;
+                    font-weight:bold;
+                    text-align:center;
+                    ">
+                        {{ $item->name }}
+                    </div>
 
-                @if($item->producedBy->machines->count())
-                    {{ $item->producedBy->machines->pluck('name')->join(', ') }}
-                @endif
+                </div>
 
-                <br><br>
-
-                {{ $item->producedBy->craft_time }}s
-            </div>
-
-            <div style="
-            font-size:50px;
-            color:#E6EB18;
-            ">
-                →
-            </div>
-
-            <div style="
-            background:#2a2a2a;
-            padding:20px;
-            border-radius:10px;
-            ">
-                📦
-                <br><br>
-                {{ $item->name }}
             </div>
 
         </div>
@@ -192,9 +335,15 @@ margin:auto;
 
     <div style="
     margin-top:50px;
-    background:#151515;
-    padding:25px;
-    border-radius:10px;
+    background:linear-gradient(
+    180deg,
+    #111111,
+    #0b0b0b
+    );
+    padding:35px;
+    border-radius:20px;
+    border:1px solid #252525;
+    box-shadow:0 0 30px rgba(0,0,0,.5);
     ">
 
         <h2>

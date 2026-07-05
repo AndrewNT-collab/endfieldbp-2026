@@ -11,6 +11,22 @@ font-family:Arial;
 padding:40px;
 ">
 
+<a
+href="{{ route('dashboard') }}"
+style="
+display:inline-block;
+margin-bottom:30px;
+padding:12px 24px;
+background:#1a1a1a;
+border:1px solid #333;
+border-radius:12px;
+color:white;
+text-decoration:none;
+font-weight:bold;
+">
+    ← Back to Dashboard
+</a>
+
 <h1 style="
 font-size:42px;
 margin-bottom:30px;
