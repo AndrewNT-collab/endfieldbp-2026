@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link
+    rel="stylesheet"
+    href="https://unpkg.com/aos@2.3.4/dist/aos.css">
     <title>Endfield Blueprint Dashboard</title>
 </head>
 
@@ -16,7 +19,19 @@
     font-family:Arial, sans-serif;
 ">
 
-<nav style="
+<script
+src="https://unpkg.com/aos@2.3.4/dist/aos.js">
+</script>
+
+<script>
+AOS.init({
+    duration: 800,
+    once: true
+});
+</script>
+
+<nav data-aos="fade-down"
+    style="
     height:64px;
     background:#E6EB18;
     display:flex;
@@ -64,17 +79,17 @@
         gap:34px;
         z-index:2;
     ">
-        <a href="{{ route('dashboard') }}" style="color:#111111; text-decoration:none; font-weight:700;">Dashboard</a>
+        <a href="{{ route('dashboard') }}" style="color:#111111; text-decoration:none; font-weight:700; padding-bottom:4px;">Dashboard</a>
         <a href="{{ route('items.index') }}" style="color:#111111; text-decoration:none;">Factory DB</a>
         <a href="{{ route('map') }}" style="color:#111111; text-decoration:none;">Map</a>
-        <a href="#" style="color:#111111; text-decoration:none;">Tracker</a>
+        <a href="{{ route('tracker.index') }}" style="color:#111111; text-decoration:none;">Tracker</a>
     </div>
 
 </nav>
 
 <main style="padding:36px; max-width:1180px; margin:auto;">
 
-    <section style="background:#212121; border:1px solid #3a3a3a; border-radius:18px; padding:28px; display:flex; justify-content:space-between; align-items:center; margin-bottom:34px;">
+    <section data-aos="fade-up" style="background:#212121; border:1px solid #3a3a3a; border-radius:18px; padding:28px; display:flex; justify-content:space-between; align-items:center; margin-bottom:34px;">
         <div style="display:flex; gap:22px; align-items:center;">
 
         @if(session('avatar'))
@@ -172,11 +187,11 @@
         </div>
     </section>
 
-    <h2 style="font-size:18px; letter-spacing:1px; color:#d4d4d4;">
+    <h2 data-aos="fade-up" style="font-size:18px; letter-spacing:1px; color:#FFFFFF;">
         Protocol Automation-Core (PAC) Area
     </h2>
 
-    <section style="display:grid; grid-template-columns:repeat(2, 1fr); gap:20px; margin-top:18px;">
+    <section data-aos="fade-up" data-aos-delay="250" style="display:grid; grid-template-columns:repeat(2, 1fr); gap:20px; margin-top:18px;">
 
         @foreach ($areas as $area)
             <div style="background:#212121; border:1px solid #3a3a3a; border-radius:16px; padding:22px;">

@@ -6,6 +6,10 @@ use App\Http\Controllers\WebItemController;
 use App\Http\Controllers\WebBlueprintController;
 use App\Http\Controllers\WebAreaController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WebTrackerController;
+
+Route::get('/tracker', [WebTrackerController::class, 'index'])
+    ->name('tracker.index');
 
 Route::get('/', function () {
     $areas = \App\Models\Area::with([

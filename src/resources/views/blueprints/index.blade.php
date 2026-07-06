@@ -24,9 +24,9 @@
 
     <div style="display:flex; gap:26px;">
         <a href="{{ route('dashboard') }}" style="color:#e5e7eb; text-decoration:none;">Dashboard</a>
-        <a href="{{ route('blueprints.index') }}" style="color:#60a5fa; text-decoration:none;">Blueprint DB</a>
-        <a href="#" style="color:#e5e7eb; text-decoration:none;">Map</a>
-        <a href="#" style="color:#e5e7eb; text-decoration:none;">Tracker</a>
+        <a href="{{ route('blueprints.index') }}" style="color:#60a5fa; text-decoration:none;">Factory DB</a>
+        <a href="{{ route('map') }}" style="color:#111111; text-decoration:none;">Map</a>
+        <a href="{{ route('tracker.index') }}" style="color:#111111; text-decoration:none;">Tracker</a>
     </div>
 </nav>
 
