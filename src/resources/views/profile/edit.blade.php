@@ -63,15 +63,68 @@
         gap:34px;
         z-index:2;
     ">
-        <a href="{{ route('dashboard') }}" style="color:#111111; text-decoration:none;">Dashboard</a>
-        <a href="{{ route('items.index') }}" style="color:#111111; text-decoration:none;">Blueprint DB</a>
+        <a href="{{ route('dashboard') }}" style="color:#111111; text-decoration:none; font-weight:700; padding-bottom:4px;">Dashboard</a>
+        <a href="{{ route('items.index') }}" style="color:#111111; text-decoration:none;">Factory DB</a>
         <a href="{{ route('map') }}" style="color:#111111; text-decoration:none;">Map</a>
-        <a href="#" style="color:#111111; text-decoration:none;">Tracker</a>
+        <a href="{{ route('tracker.index') }}" style="color:#111111; text-decoration:none;">Tracker</a>
     </div>
+
+    @auth
+    <div style="margin-left:auto; position:relative; z-index:2;">
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+
+            <button type="submit"
+                style="
+                    background:#dc2626;
+                    color:white;
+                    border:none;
+                    padding:10px 18px;
+                    border-radius:10px;
+                    cursor:pointer;
+                    font-weight:bold;
+                ">
+                Logout
+            </button>
+        </form>
+    </div>
+    @endauth
 
 </nav>
 
 <main style="max-width:700px; margin:auto; padding:40px;">
+
+    @guest
+    <section style="
+    background:#212121;
+    border:1px solid #3a3a3a;
+    border-radius:20px;
+    padding:40px;
+    text-align:center;
+    ">
+
+        <h2>Login Required</h2>
+
+        <p style="color:#9ca3af;">
+            Login using Discord to edit your Endfield profile.
+        </p>
+
+        <a href="{{ route('discord.login') }}"
+        style="
+                background:#5865F2;
+                color:white;
+                text-decoration:none;
+                padding:14px 26px;
+                border-radius:12px;
+                font-weight:bold;
+                display:inline-block;
+        ">
+            Login with Discord
+        </a>
+
+    </section>
+
+    @else
 
     <section style="background:#212121; border:1px solid #3a3a3a; border-radius:20px; padding:34px;">
 
@@ -89,8 +142,6 @@
 
             @csrf
 
-            <label>Profile Photo</label>
-
             <!-- Avatar -->
             <div style="margin-bottom:28px;">
 
@@ -100,10 +151,10 @@
 
                 <!-- Preview foto -->
                 <div style="margin-bottom:14px;">
-                    @if(session('avatar'))
+                    @if(auth()->user()->avatar_url)
                         <img
                             id="avatarPreview"
-                            src="{{ asset('storage/' . session('avatar')) }}"
+                            src="{{ auth()->user()->getFilamentAvatarUrl() }}"
                             style="
                                 width:90px;
                                 height:90px;
@@ -140,20 +191,19 @@
                 </div>
 
                 <input
-                    type="file"
-                    name="avatar"
-                    id="avatarInput"
-                    accept="image/*"
-                    onchange="previewAvatar(event)"
-                    style="
-                        width:100%;
-                        box-sizing:border-box;
-                        background:#141414;
-                        color:white;
-                        border:1px solid #444;
-                        padding:12px;
-                        border-radius:10px;
-                    ">
+                type="file"
+                name="avatar"
+                id="avatarInput"
+                accept="image/*"
+                style="
+                    width:100%;
+                    box-sizing:border-box;
+                    background:#141414;
+                    color:white;
+                    border:1px solid #444;
+                    padding:12px;
+                    border-radius:10px;
+                ">
                 <small style="color:#666; margin-top:6px; display:block;">JPG, PNG, WEBP — maks 2MB</small>
 
             </div>
@@ -164,17 +214,17 @@
                     Username
                 </label>
                 <input type="text"
-                       name="username"
-                       value="{{ session('username', 'Endministrator') }}"
-                       style="
-                           width:100%;
-                           box-sizing:border-box;
-                           background:#141414;
-                           color:white;
-                           border:1px solid #444;
-                           padding:14px;
-                           border-radius:10px;
-                       ">
+                        name="display_name"
+                        value="{{ old('display_name', auth()->user()->display_name) }}"
+                        style="
+                            width:100%;
+                            box-sizing:border-box;
+                            background:#141414;
+                            color:white;
+                            border:1px solid #444;
+                            padding:14px;
+                            border-radius:10px;
+                        ">
             </div>
 
             <!-- UID -->
@@ -184,7 +234,7 @@
                 </label>
                 <input type="text"
                        name="uid"
-                       value="{{ session('uid', '100-000-000') }}"
+                       value="{{ old('uid', auth()->user()->uid) }}"
                        style="
                            width:100%;
                            box-sizing:border-box;
@@ -209,9 +259,21 @@
                     padding:14px;
                     border-radius:10px;
                 ">
-                    <option {{ session('game_server') == 'Asia Server' ? 'selected' : '' }}>Asia Server</option>
-                    <option {{ session('game_server') == 'America Server' ? 'selected' : '' }}>America Server</option>
-                    <option {{ session('game_server') == 'Europe Server' ? 'selected' : '' }}>Europe Server</option>
+                    <option value="Asia Server"
+                    {{ old('server', auth()->user()->server) == 'Asia Server' ? 'selected' : '' }}>
+                        Asia Server
+                    </option>
+
+                    <option value="America Server"
+                    {{ old('server', auth()->user()->server) == 'America Server' ? 'selected' : '' }}>
+                        America Server
+                    </option>
+
+                    <option value="Europe Server"
+                    {{ old('server', auth()->user()->server) == 'Europe Server' ? 'selected' : '' }}>
+                        Europe Server
+                    </option>
+
                 </select>
             </div>
 
@@ -222,7 +284,7 @@
                 </label>
                 <input type="text"
                        name="tag1"
-                       value="{{ session('tag1', 'Valley IV') }}"
+                       value="{{ old('tag1', auth()->user()->tag1) }}"
                        style="
                            width:100%;
                            box-sizing:border-box;
@@ -241,7 +303,7 @@
                 </label>
                 <input type="text"
                        name="tag2"
-                       value="{{ session('tag2', 'AIC Active') }}"
+                       value="{{ old('tag2', auth()->user()->tag2) }}"
                        style="
                            width:100%;
                            box-sizing:border-box;
@@ -260,7 +322,7 @@
                 </label>
                 <input type="text"
                        name="tag3"
-                       value="{{ session('tag3', 'Patch 1.2') }}"
+                       value="{{ old('tag3', auth()->user()->tag3) }}"
                        style="
                            width:100%;
                            box-sizing:border-box;
@@ -306,25 +368,27 @@
 
     </section>
 
+    @endguest
+    
+
 </main>
 
 <script>
-function previewAvatar(event) {
-    const file = event.target.files[0];
+document.getElementById('avatarInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const preview = document.getElementById('avatarPreview');
-        const placeholder = document.getElementById('avatarPlaceholder');
+    const preview = document.getElementById('avatarPreview');
+    const placeholder = document.getElementById('avatarPlaceholder');
 
-        preview.src = e.target.result;
-        preview.style.display = 'block';
+    preview.src = URL.createObjectURL(file);
+    preview.style.display = 'block';
 
-        if (placeholder) placeholder.style.display = 'none';
-    };
-    reader.readAsDataURL(file);
-}
+    if (placeholder) {
+        placeholder.style.display = 'none';
+    }
+});
 </script>
 
 </body>

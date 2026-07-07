@@ -23,9 +23,25 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
      */
     protected $fillable = [
         'avatar_url',
+
         'name',
         'email',
         'password',
+
+        'discord_id',
+        'discord_username',
+        'discord_avatar',
+
+        'display_name',
+
+        'uid',
+        'server',
+
+        'tag1',
+        'tag2',
+        'tag3',
+
+        'bio',
     ];
 
     /**
@@ -55,13 +71,18 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
     {
         if ($this->avatar_url) {
             return asset('storage/' . $this->avatar_url);
-        } else {
-            $hash = md5(strtolower(trim($this->email)));
-
-            return 'https://www.gravatar.com/avatar/' . $hash . '?d=mp&r=g&s=250';
         }
-    }
 
+        if ($this->discord_avatar && $this->discord_id) {
+            return "https://cdn.discordapp.com/avatars/{$this->discord_id}/{$this->discord_avatar}.png";
+        }
+
+        $email = $this->email ?? '';
+        $hash = md5(strtolower(trim($email)));
+
+        return "https://www.gravatar.com/avatar/{$hash}?d=mp&r=g&s=250";
+    }
+    
     public function canAccessPanel(Panel $panel): bool
     {
         return true;

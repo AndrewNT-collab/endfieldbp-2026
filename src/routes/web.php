@@ -7,6 +7,7 @@ use App\Http\Controllers\WebBlueprintController;
 use App\Http\Controllers\WebAreaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WebTrackerController;
+use App\Http\Controllers\DiscordAuthController;
 
 Route::get('/tracker', [WebTrackerController::class, 'index'])
     ->name('tracker.index');
@@ -55,7 +56,10 @@ Route::get('/profile', [ProfileController::class, 'edit'])
 Route::post('/profile', [ProfileController::class, 'update'])
     ->name('profile.update');
 
-Route::get('/profile/edit', function () { return view('profile.edit'); })->name('profile.edit');
+Route::get('/auth/discord', [DiscordAuthController::class, 'redirect'])
+    ->name('discord.login');
+
+Route::get('/auth/discord/callback', [DiscordAuthController::class, 'callback']);
 
 Livewire::setUpdateRoute(function ($handle) {
     return Route::post(config('app.asset_prefix') . '/livewire/update', $handle);

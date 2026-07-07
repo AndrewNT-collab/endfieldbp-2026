@@ -26,7 +26,9 @@ src="https://unpkg.com/aos@2.3.4/dist/aos.js">
 <script>
 AOS.init({
     duration: 800,
-    once: true
+    delay: 0,
+    once: true,
+    offset: 200
 });
 </script>
 
@@ -84,15 +86,32 @@ AOS.init({
         <a href="{{ route('map') }}" style="color:#111111; text-decoration:none;">Map</a>
         <a href="{{ route('tracker.index') }}" style="color:#111111; text-decoration:none;">Tracker</a>
     </div>
-
 </nav>
 
 <main style="padding:36px; max-width:1180px; margin:auto;">
+    @auth
+        <section
+            data-aos="fade-up"
+            data-aos-delay="100"
+            style="
+                background:#212121;
+                border:1px solid #3a3a3a;
+                border-radius:18px;
+                padding:28px;
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                margin-bottom:34px;
+                cursor:pointer;
+            "
+        >
 
-    <section data-aos="fade-up" style="background:#212121; border:1px solid #3a3a3a; border-radius:18px; padding:28px; display:flex; justify-content:space-between; align-items:center; margin-bottom:34px;">
-        <div style="display:flex; gap:22px; align-items:center;">
+        <div style="display:flex; align-items:center; gap:22px;">
 
-        @if(session('avatar'))
+            <a href="{{ route('profile.edit') }}"
+            style="text-decoration:none;">
+
+            @if(session('avatar'))
             <img
                 src="{{ asset('storage/' . session('avatar')) }}"
                 style="
@@ -101,91 +120,108 @@ AOS.init({
                     border-radius:16px;
                     object-fit:cover;
                     border:1px solid #404040;
-                ">
-        @else
-            <div style="
-                width:80px;
-                height:80px;
-                border-radius:16px;
-                background:#2a2a2a;
-                color:#d4d4d4;
-                display:flex;
-                align-items:center;
-                justify-content:center;
-                font-size:34px;
-                border:1px solid #404040;
-            ">
+                    transition:.2s;
+                "
+                onmouseover="this.style.borderColor='#E6EB18'"
+                onmouseout="this.style.borderColor='#404040'"
+            >
+            @else
+            <div
+                style="
+                    width:80px;
+                    height:80px;
+                    border-radius:16px;
+                    background:#2a2a2a;
+                    color:#d4d4d4;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    font-size:34px;
+                    border:1px solid #404040;
+                    transition:.2s;
+                "
+                onmouseover="this.style.borderColor='#E6EB18'"
+                onmouseout="this.style.borderColor='#404040'"
+            >
                 👤
             </div>
-        @endif
+            @endif
+            </a>
 
             <div>
-                <h1 style="margin:0 0 8px; font-size:28px;">
+                <h1 datastyle="margin:0 0 8px;">
                     {{ session('username', 'Endministrator') }}
                 </h1>
 
                 <p style="margin:0; color:#a3a3a3;">
-                    UID: {{ session('uid', '100-000-000') }}
-                    ·
-                    {{ session('server', 'Asia Server') }}
+                    UID: {{ session('uid') }}
+                    
+                    {{ session('game_server') }}
                 </p>
 
-                <div style="margin-top:12px;">
-
-                    <span style="
-                        background:#2f2f2f;
-                        color:#f5f5f5;
-                        padding:6px 10px;
-                        border-radius:999px;
-                        font-size:13px;
-                        border:1px solid #444;
-                    ">
-                        {{ session('tag1', 'Valley IV') }}
-                    </span>
-
-                    <span style="
-                        background:#2f2f2f;
-                        color:#f5f5f5;
-                        padding:6px 10px;
-                        border-radius:999px;
-                        font-size:13px;
-                        border:1px solid #444;
-                    ">
-                        {{ session('tag2', 'AIC Active') }}
-                    </span>
-
-                    <span style="
-                        background:#2f2f2f;
-                        color:#f5f5f5;
-                        padding:6px 10px;
-                        border-radius:999px;
-                        font-size:13px;
-                        border:1px solid #444;
-                    ">
-                        {{ session('tag3', 'Patch 1.2') }}
-                    </span>
-
+                <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+                    <!-- tag -->
                 </div>
             </div>
+
         </div>
 
-        <div style="display:flex; align-items:center; justify-content:center;">
+        <div>
             <img id="endfieldLogo"
                 src="{{ asset('images/EFL.webp') }}"
-                alt="EFLogo"
-                onclick="logoTap()"
                 style="
                     width:120px;
                     height:120px;
                     object-fit:contain;
-                    border-radius:4px;
-                    padding:14px;
-                    border:1px solid rgba(255,255,255,0.18);
                     background:#171717;
+                    border:1px solid rgba(255,255,255,.18);
+                    padding:14px;
                     cursor:pointer;
                 ">
         </div>
+
     </section>
+
+    @else
+
+    <section
+        data-aos="fade-up"
+        style="
+            background:#212121;
+            border:1px solid #3a3a3a;
+            border-radius:18px;
+            padding:32px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:34px;
+        ">
+
+        <div>
+            <h1 style="margin:0;font-size:30px;">
+                Welcome, Endministrator.
+            </h1>
+
+            <p style="margin-top:8px;color:#9ca3af;">
+                Login with Discord to synchronize your Endfield profile.
+            </p>
+        </div>
+
+        <a href="{{ route('discord.login') }}"
+        style="
+                background:#5865F2;
+                color:white;
+                text-decoration:none;
+                padding:14px 22px;
+                border-radius:12px;
+                font-weight:bold;
+        ">
+            Login with Discord
+        </a>
+
+    </section>
+
+    @endauth
 
     <h2 data-aos="fade-up" style="font-size:18px; letter-spacing:1px; color:#FFFFFF;">
         Protocol Automation-Core (PAC) Area
@@ -253,7 +289,7 @@ function logoTap() {
     clearTimeout(tapTimer);
     tapTimer = setTimeout(() => {
         tapCount = 0;
-    }, 2000); 
+    }, 2000);
 
     if (tapCount >= 5) {
         tapCount = 0;
@@ -277,7 +313,7 @@ function logoTap() {
                     src="{{ asset('images/easter.jpg') }}"
                     style="
                         max-width:90vw;
-                        max-height:80vh; /* Perbaikan spasi */
+                        max-height:80vh;
                         border-radius:20px;
                     "
                 >
@@ -303,6 +339,12 @@ function logoTap() {
         }, 1000);
     }
 }
+
+document.getElementById("endfieldLogo").addEventListener("click", function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    logoTap();
+});
 
 </script>
 
