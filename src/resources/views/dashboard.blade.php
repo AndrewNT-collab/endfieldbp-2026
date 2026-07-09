@@ -310,7 +310,7 @@ function logoTap() {
                 ">
 
                 <img
-                    src="{{ asset('images/easter.jpg') }}"
+                    src="{{ asset('images/easter.png') }}"
                     style="
                         max-width:90vw;
                         max-height:80vh;

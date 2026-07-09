@@ -18,6 +18,15 @@ class DiscordAuthController extends Controller
     {
         $discord = Socialite::driver('discord')->user();
 
+        dd([
+            'id' => $discord->getId(),
+            'name' => $discord->getName(),
+            'nickname' => $discord->getNickname(),
+            'email' => $discord->getEmail(),
+            'avatar' => $discord->getAvatar(),
+            'raw' => $discord->user,
+        ]);
+
         $user = User::updateOrCreate(
             [
                 'discord_id' => $discord->getId(),
@@ -26,7 +35,7 @@ class DiscordAuthController extends Controller
                 'discord_username' => $discord->getNickname() ?: $discord->getName(),
                 'display_name'      => $discord->getNickname() ?: $discord->getName(),
                 'name'              => $discord->getName(),
-                'email'             => $discord->getEmail() ?? $discord->getId().'@discord.local',
+                'email'             => $discord->getEmail() ?? $discord->getId() . '@discord.local',
                 'password'          => bcrypt(Str::random(32)),
                 'discord_avatar'    => $discord->getAvatar(),
             ]
@@ -34,6 +43,8 @@ class DiscordAuthController extends Controller
 
         Auth::login($user, true);
 
-        return redirect()->route('dashboard');
+        session()->regenerate();
+
+        return redirect()->route('profile.edit');
     }
 }

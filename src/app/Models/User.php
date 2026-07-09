@@ -69,18 +69,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar
 
     public function getFilamentAvatarUrl(): ?string
     {
-        if ($this->avatar_url) {
-            return asset('storage/' . $this->avatar_url);
-        }
-
-        if ($this->discord_avatar && $this->discord_id) {
-            return "https://cdn.discordapp.com/avatars/{$this->discord_id}/{$this->discord_avatar}.png";
-        }
-
-        $email = $this->email ?? '';
-        $hash = md5(strtolower(trim($email)));
-
-        return "https://www.gravatar.com/avatar/{$hash}?d=mp&r=g&s=250";
+        return $this->discord_avatar
+            ?: ($this->avatar_url ? asset('storage/' . $this->avatar_url) : null);
     }
     
     public function canAccessPanel(Panel $panel): bool

@@ -8,6 +8,16 @@ use App\Http\Controllers\WebAreaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WebTrackerController;
 use App\Http\Controllers\DiscordAuthController;
+use Illuminate\Support\Facades\Auth;
+
+Route::post('/logout', function () {
+    Auth::logout();
+
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+
+    return redirect('/');
+})->name('logout');
 
 Route::get('/tracker', [WebTrackerController::class, 'index'])
     ->name('tracker.index');
