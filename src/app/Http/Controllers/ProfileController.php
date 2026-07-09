@@ -32,11 +32,11 @@ class ProfileController extends Controller
         }
 
         $user->display_name = $request->display_name;
-        $user->uid = $request->uid;
-        $user->server = $request->server;
-        $user->tag1 = $request->tag1;
-        $user->tag2 = $request->tag2;
-        $user->tag3 = $request->tag3;
+        $user->server = $request->input('server');
+        $user->tag1 = $request->input('tag1');
+        $user->tag2 = $request->input('tag2');
+        $user->tag3 = $request->input('tag3');
+        $user->bio = $request->input('bio');
 
         $user->save();
 

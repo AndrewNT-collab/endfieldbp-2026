@@ -18,15 +18,6 @@ class DiscordAuthController extends Controller
     {
         $discord = Socialite::driver('discord')->user();
 
-        dd([
-            'id' => $discord->getId(),
-            'name' => $discord->getName(),
-            'nickname' => $discord->getNickname(),
-            'email' => $discord->getEmail(),
-            'avatar' => $discord->getAvatar(),
-            'raw' => $discord->user,
-        ]);
-
         $user = User::updateOrCreate(
             [
                 'discord_id' => $discord->getId(),
@@ -40,6 +31,11 @@ class DiscordAuthController extends Controller
                 'discord_avatar'    => $discord->getAvatar(),
             ]
         );
+
+        if (empty($user->uid)) {
+            $user->uid = 'EF-' . random_int(10000000, 99999999);
+            $user->save();
+        }
 
         Auth::login($user, true);
 

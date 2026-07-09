@@ -111,9 +111,15 @@ AOS.init({
             <a href="{{ route('profile.edit') }}"
             style="text-decoration:none;">
 
-            @if(session('avatar'))
+            @php
+                $avatar = auth()->user()->avatar_url
+                    ? asset('storage/' . auth()->user()->avatar_url)
+                    : auth()->user()->discord_avatar;
+            @endphp
+
+            @if($avatar)
             <img
-                src="{{ asset('storage/' . session('avatar')) }}"
+                src="{{ $avatar }}"
                 style="
                     width:80px;
                     height:80px;
@@ -125,7 +131,9 @@ AOS.init({
                 onmouseover="this.style.borderColor='#E6EB18'"
                 onmouseout="this.style.borderColor='#404040'"
             >
+
             @else
+
             <div
                 style="
                     width:80px;
@@ -138,32 +146,52 @@ AOS.init({
                     justify-content:center;
                     font-size:34px;
                     border:1px solid #404040;
-                    transition:.2s;
                 "
-                onmouseover="this.style.borderColor='#E6EB18'"
-                onmouseout="this.style.borderColor='#404040'"
             >
                 👤
             </div>
+
             @endif
             </a>
 
-            <div>
-                <h1 datastyle="margin:0 0 8px;">
-                    {{ session('username', 'Endministrator') }}
-                </h1>
+        <div>
 
-                <p style="margin:0; color:#a3a3a3;">
-                    UID: {{ session('uid') }}
-                    
-                    {{ session('game_server') }}
+            <h1 style="margin:0 0 8px;">
+                {{ auth()->user()->display_name }}
+            </h1>
+
+            @if(auth()->user()->bio)
+                <p style="margin:0 0 14px; color:#bdbdbd; font-style:italic;">
+                    {{ auth()->user()->bio }}
                 </p>
+            @endif
 
-                <div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
-                    <!-- tag -->
+            <div style="color:#a3a3a3; line-height:1.8;">
+
+                <div>
+                    🆔 UID :
+                    <strong style="color:#fff;">
+                        {{ auth()->user()->uid ?? 'Not Assigned' }}
+                    </strong>
                 </div>
+
+                <div>
+                    🌏 Server :
+                    <strong style="color:#fff;">
+                        {{ auth()->user()->server ?? '-' }}
+                    </strong>
+                </div>
+
+                <div>
+                    📅 Joined :
+                    <strong style="color:#fff;">
+                        {{ auth()->user()->created_at->format('d M Y') }}
+                    </strong>
+                </div>
+
             </div>
 
+        </div>
         </div>
 
         <div>
@@ -310,7 +338,7 @@ function logoTap() {
                 ">
 
                 <img
-                    src="{{ asset('images/easter.png') }}"
+                    src="{{ asset('images/easter.gif') }}"
                     style="
                         max-width:90vw;
                         max-height:80vh;
@@ -336,7 +364,7 @@ function logoTap() {
             if (existingPopup) {
                 existingPopup.parentElement.remove();
             }
-        }, 1000);
+        }, 17500);
     }
 }
 

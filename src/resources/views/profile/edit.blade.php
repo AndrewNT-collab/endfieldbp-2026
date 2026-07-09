@@ -145,105 +145,128 @@
             <!-- Avatar -->
             <div style="margin-bottom:28px;">
 
-                <label style="display:block; margin-bottom:12px; font-weight:bold; color:#d4d4d4;">
+                @php
+                    $avatar = auth()->user()->avatar_url
+                        ? asset('storage/' . auth()->user()->avatar_url)
+                        : auth()->user()->discord_avatar;
+                @endphp
+
+                <label style="
+                    display:block;
+                    margin-bottom:12px;
+                    font-weight:bold;
+                    color:#d4d4d4;
+                ">
                     Profile Photo
                 </label>
 
-                <!-- Preview foto -->
-                <div style="margin-bottom:14px;">
-                    @if(auth()->user()->avatar_url)
-                        <img
-                            id="avatarPreview"
-                            src="{{ auth()->user()->getFilamentAvatarUrl() }}"
-                            style="
-                                width:90px;
-                                height:90px;
-                                border-radius:14px;
-                                object-fit:cover;
-                                border:1px solid #404040;
-                            ">
-                    @else
-                        <div id="avatarPlaceholder" style="
-                            width:90px;
-                            height:90px;
-                            border-radius:14px;
-                            background:#2a2a2a;
-                            color:#d4d4d4;
-                            display:flex;
-                            align-items:center;
-                            justify-content:center;
-                            font-size:34px;
-                            border:1px solid #404040;
-                        ">
-                            👤
-                        </div>
-                        <img id="avatarPreview"
-                             src=""
-                             style="
-                                width:90px;
-                                height:90px;
-                                border-radius:14px;
-                                object-fit:cover;
-                                border:1px solid #404040;
-                                display:none;
-                             ">
-                    @endif
-                </div>
+                <img
+                    id="avatarPreview"
+                    src="{{ $avatar }}"
+                    style="
+                        width:96px;
+                        height:96px;
+                        border-radius:18px;
+                        object-fit:cover;
+                        cursor:pointer;
+                        border:1px solid #444;
+                        margin-bottom:14px;
+                        transition:.2s;
+                    "
+                    onmouseover="this.style.borderColor='#E6EB18';this.style.transform='scale(1.05)'"
+                    onmouseout="this.style.borderColor='#444';this.style.transform='scale(1)'"
+                >
 
                 <input
-                type="file"
-                name="avatar"
-                id="avatarInput"
-                accept="image/*"
-                style="
-                    width:100%;
-                    box-sizing:border-box;
-                    background:#141414;
-                    color:white;
-                    border:1px solid #444;
-                    padding:12px;
-                    border-radius:10px;
-                ">
-                <small style="color:#666; margin-top:6px; display:block;">JPG, PNG, WEBP — maks 2MB</small>
+                    type="file"
+                    id="avatarInput"
+                    name="avatar"
+                    accept="image/*"
+                    style="
+                        width:100%;
+                        box-sizing:border-box;
+                        background:#141414;
+                        color:white;
+                        border:1px solid #444;
+                        padding:12px;
+                        border-radius:10px;
+                    "
+                >
+
+                <small style="color:#666;">
+                    JPG, PNG, WEBP — maks 2MB
+                </small>
 
             </div>
 
-            <!-- Username -->
+            <!-- Display -->
             <div style="margin-bottom:22px;">
+
+                <label style="display:block; margin-bottom:10px; font-weight:bold; color:#d4d4d4;">
+                    Display Name
+                </label>
+
+                <input
+                    type="text"
+                    name="display_name"
+                    value="{{ old('display_name', auth()->user()->display_name) }}"
+                    style="
+                        width:100%;
+                        box-sizing:border-box;
+                        background:#141414;
+                        color:white;
+                        border:1px solid #444;
+                        padding:14px;
+                        border-radius:10px;
+                        margin-bottom:18px;
+                    "
+                >
+
                 <label style="display:block; margin-bottom:10px; font-weight:bold; color:#d4d4d4;">
                     Username
                 </label>
-                <input type="text"
-                        name="display_name"
-                        value="{{ old('display_name', auth()->user()->display_name) }}"
-                        style="
-                            width:100%;
-                            box-sizing:border-box;
-                            background:#141414;
-                            color:white;
-                            border:1px solid #444;
-                            padding:14px;
-                            border-radius:10px;
-                        ">
+
+                <input
+                    type="text"
+                    value="@{{ auth()->user()->discord_username }}"
+                    readonly
+                    style="
+                        width:100%;
+                        box-sizing:border-box;
+                        background:#1a1a1a;
+                        color:#9ca3af;
+                        border:1px solid #444;
+                        padding:14px;
+                        border-radius:10px;
+                        cursor:not-allowed;
+                    "
+                >
+
             </div>
 
             <!-- UID -->
             <div style="margin-bottom:22px;">
+
                 <label style="display:block; margin-bottom:10px; font-weight:bold; color:#d4d4d4;">
                     UID
                 </label>
-                <input type="text"
-                       name="uid"
-                       value="{{ old('uid', auth()->user()->uid) }}"
-                       style="
-                           width:100%;
-                           box-sizing:border-box;
-                           background:#141414;
-                           color:white;
-                           border:1px solid #444;
-                           padding:14px;
-                           border-radius:10px;
-                       ">
+
+                <input
+                    type="text"
+                    value="{{ auth()->user()->uid }}"
+                    readonly
+                    style="
+                        width:100%;
+                        box-sizing:border-box;
+                        background:#1a1a1a;
+                        color:#9ca3af;
+                        border:1px solid #444;
+                        padding:14px;
+                        border-radius:10px;
+                        cursor:not-allowed;
+                    "
+                >
+
             </div>
 
             <!-- Server -->
@@ -373,22 +396,58 @@
 
 </main>
 
+<div id="avatarModal"
+style="
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.85);
+z-index:99999;
+justify-content:center;
+align-items:center;
+">
+
+    <img id="avatarModalImg"
+    style="
+        max-width:80vw;
+        max-height:80vh;
+        border-radius:20px;
+        border:2px solid #E6EB18;
+    ">
+
+</div>
+
 <script>
-document.getElementById('avatarInput').addEventListener('change', function(e) {
-    const file = e.target.files[0];
 
-    if (!file) return;
+const input = document.getElementById('avatarInput');
+const preview = document.getElementById('avatarPreview');
 
-    const preview = document.getElementById('avatarPreview');
-    const placeholder = document.getElementById('avatarPlaceholder');
+const modal = document.getElementById('avatarModal');
+const modalImg = document.getElementById('avatarModalImg');
+
+input.addEventListener('change', function(){
+
+    const file = this.files[0];
+
+    if(!file) return;
 
     preview.src = URL.createObjectURL(file);
-    preview.style.display = 'block';
 
-    if (placeholder) {
-        placeholder.style.display = 'none';
-    }
 });
+
+preview.addEventListener('click', function(){
+
+    modal.style.display = 'flex';
+    modalImg.src = preview.src;
+
+});
+
+modal.addEventListener('click', function(){
+
+    modal.style.display = 'none';
+
+});
+
 </script>
 
 </body>
