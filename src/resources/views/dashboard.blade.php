@@ -338,7 +338,7 @@ function logoTap() {
                 ">
 
                 <img
-                    src="{{ asset('images/easter.gif') }}"
+                    src="{{ asset('images/easter.jpeg') }}"
                     style="
                         max-width:90vw;
                         max-height:80vh;
@@ -364,7 +364,7 @@ function logoTap() {
             if (existingPopup) {
                 existingPopup.parentElement.remove();
             }
-        }, 17500);
+        }, 2000);
     }
 }
 
