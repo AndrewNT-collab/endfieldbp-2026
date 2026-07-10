@@ -169,21 +169,21 @@ AOS.init({
             <div style="color:#a3a3a3; line-height:1.8;">
 
                 <div>
-                    🆔 UID :
+                    UID :
                     <strong style="color:#fff;">
                         {{ auth()->user()->uid ?? 'Not Assigned' }}
                     </strong>
                 </div>
 
                 <div>
-                    🌏 Server :
+                    Server :
                     <strong style="color:#fff;">
                         {{ auth()->user()->server ?? '-' }}
                     </strong>
                 </div>
 
                 <div>
-                    📅 Joined :
+                    Joined :
                     <strong style="color:#fff;">
                         {{ auth()->user()->created_at->format('d M Y') }}
                     </strong>
