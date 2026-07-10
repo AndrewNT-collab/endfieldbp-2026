@@ -41,11 +41,8 @@ class AdminPanelProvider extends PanelProvider
 
             ->discoverWidgets(
                 in: app_path('Filament/Admin/Widgets'),
-                for: 'App\\Filament\\Admin\\Widgets',
+                for: 'App\\Filament\\Admin\\Widgets'
             )
-            ->widgets([
-                \App\Filament\Admin\Widgets\BlogPostsChart::class,
-            ])
 
             ->discoverResources(
                 in: app_path('Filament/Admin/Resources'),
@@ -66,19 +63,13 @@ class AdminPanelProvider extends PanelProvider
                 for: 'App\\Filament\\Admin\\Clusters'
             )
 
-            ->discoverWidgets(
-                in: app_path('Filament/Admin/Widgets'),
-                for: 'App\\Filament\\Admin\\Widgets'
-            )
-
-            ->widgets([])
-
+            ->plugins([
+                \Hasnayeen\Themes\ThemesPlugin::make(),
+            ])
+                        
             ->navigationGroups([
                 NavigationGroup::make()
                     ->label('Administration'),
-            ])
-
-            ->plugins([
             ])
 
             ->resources([
