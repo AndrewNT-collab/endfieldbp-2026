@@ -32,60 +32,123 @@ AOS.init({
 });
 </script>
 
-<nav data-aos="fade-down"
+<nav
+    data-aos="fade-down"
     style="
-    height:64px;
-    background:#E6EB18;
-    display:flex;
-    align-items:center;
-    padding:0 34px;
-    border-bottom:2px solid #111111;
-    position:relative;
-    overflow:hidden;
-">
-
-    <div style="
-        position:absolute;
-        right:0;
-        top:0;
-        width:360px;
         height:64px;
-        background:repeating-linear-gradient(
-            -45deg,
-            #111111 0px,
-            #111111 30px,
-            #E6EB18 30px,
-            #E6EB18 54px
-        );
-        clip-path:polygon(18% 0, 100% 0, 100% 100%, 0 100%);
-        pointer-events:none;
-        z-index:1;
-    "></div>
-
-    <div style="display:flex; align-items:center; gap:14px; position:relative; z-index:2;">
-        <div style="background:#1f1f1f; color:#f5f5f5; padding:10px 14px; border-radius:10px; font-weight:bold; border:1px solid #404040;">
-            EB
-        </div>
-
-        <strong style="color:#111111; font-size:18px;">
-            Endfield Blueprint
-        </strong>
-    </div>
-
-    <div style="
-        position:absolute;
-        left:50%;
-        transform:translateX(-50%);
+        background:#E6EB18;
         display:flex;
         align-items:center;
-        gap:34px;
-        z-index:2;
-    ">
-        <a href="{{ route('dashboard') }}" style="color:#111111; text-decoration:none; font-weight:700; padding-bottom:4px;">Dashboard</a>
-        <a href="{{ route('items.index') }}" style="color:#111111; text-decoration:none;">Factory DB</a>
-        <a href="{{ route('map') }}" style="color:#111111; text-decoration:none;">Map</a>
-        <a href="{{ route('tracker.index') }}" style="color:#111111; text-decoration:none;">Tracker</a>
+        justify-content:space-between;
+        padding:0 34px;
+        border-bottom:2px solid #111111;
+        position:relative;
+        overflow:hidden;
+    "
+>
+
+    <!-- Hazard Stripe -->
+    <div
+        style="
+            position:absolute;
+            right:0;
+            top:0;
+            width:360px;
+            height:64px;
+            background:repeating-linear-gradient(
+                -45deg,
+                #111111 0px,
+                #111111 30px,
+                #E6EB18 30px,
+                #E6EB18 54px
+            );
+            clip-path:polygon(18% 0,100% 0,100% 100%,0 100%);
+            pointer-events:none;
+            z-index:1;
+        ">
     </div>
+
+    <!-- Logo -->
+    <div
+        style="
+            display:flex;
+            align-items:center;
+            gap:14px;
+            z-index:2;
+            flex-shrink:0;
+        "
+    >
+        <img
+            src="{{ asset('images/HG.webp') }}"
+            alt="Hypergryph"
+            style="
+                width:48px;
+                height:48px;
+            "
+        >
+
+        <div
+            style="
+                display:flex;
+                flex-direction:column;
+                line-height:1.1;
+            "
+        >
+            <span
+                style="
+                    font-size:18px;
+                    font-weight:700;
+                    color:#111111;
+                "
+            >
+                Endfield Industries
+            </span>
+
+            <span
+                style="
+                    font-size:11px;
+                    color:#444;
+                    letter-spacing:1px;
+                    text-transform:uppercase;
+                "
+            >
+                Endfield Factory Blueprint System
+            </span>
+        </div>
+    </div>
+
+<!-- Navigation -->
+    <div
+        style="
+            display:flex;
+            align-items:center;
+            gap:34px;
+            margin-left:48px;
+            margin-right:220px;
+            z-index:2;
+        "
+    >
+        <a href="{{ route('dashboard') }}"
+            style="color:#111111; text-decoration:none; font-weight:700; text-shadow:-1px -1px 0 #fff100, 1px -1px 0 #fff100, -1px 1px 0 #fff100, 1px 1px 0 #fff100;">
+            Dashboard
+        </a>
+
+        <a href="{{ route('items.index') }}"
+            style="color:#111111; text-decoration:none; text-shadow:-1px -1px 0 #fff100, 1px -1px 0 #fff100, -1px 1px 0 #fff100, 1px 1px 0 #fff100;">
+            Factory DB
+        </a>
+
+        <a href="{{ route('map') }}"
+            style="color:#111111; text-decoration:none; text-shadow:-1px -1px 0 #fff100, 1px -1px 0 #fff100, -1px 1px 0 #fff100, 1px 1px 0 #fff100;">
+            Map
+        </a>
+
+        <a href="{{ route('tracker.index') }}"
+            style="color:#111111; text-decoration:none; text-shadow:-1px -1px 0 #fff100, 1px -1px 0 #fff100, -1px 1px 0 #fff100, 1px 1px 0 #fff100;">
+            Tracker
+        </a>
+    </div>
+
 </nav>
 
 <main style="padding:36px; max-width:1180px; margin:auto;">
@@ -235,17 +298,31 @@ AOS.init({
             </p>
         </div>
 
-        <a href="{{ route('discord.login') }}"
+    <a href="{{ route('discord.login') }}"
         style="
-                background:#5865F2;
-                color:white;
-                text-decoration:none;
-                padding:14px 22px;
-                border-radius:12px;
-                font-weight:bold;
+            background:#5865F2;
+            color:white;
+            text-decoration:none;
+            padding:14px 22px;
+            border-radius:12px;
+            display:inline-flex;
+            align-items:center;
+            gap:10px;
+            font-weight:600;
         ">
-            Login with Discord
-        </a>
+
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="white"
+            viewBox="0 0 127.14 96.36">
+            <path d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.27 8.14C2.79 33.35-1.71 57.94.54 82.18A105.73 105.73 0 0 0 32.71 96.36a77.7 77.7 0 0 0 6.89-11.31 68.42 68.42 0 0 1-10.84-5.18c.91-.66 1.8-1.34 2.66-2.04a75.57 75.57 0 0 0 64.3 0c.87.71 1.76 1.39 2.66 2.04a68.68 68.68 0 0 1-10.86 5.19 77 77 0 0 0 6.89 11.3A105.25 105.25 0 0 0 126.6 82.2c2.64-28.08-4.52-52.45-18.9-74.13ZM42.45 65.69c-6.27 0-11.41-5.73-11.41-12.81s5-12.81 11.41-12.81c6.46 0 11.52 5.78 11.41 12.81 0 7.08-5 12.81-11.41 12.81Zm42.24 0c-6.27 0-11.41-5.73-11.41-12.81s5-12.81 11.41-12.81c6.46 0 11.52 5.78 11.41 12.81 0 7.08-4.95 12.81-11.41 12.81Z"/>
+        </svg>
+
+        <span>Login with Discord</span>
+
+    </a>
 
     </section>
 

@@ -66,6 +66,8 @@ class AdminPanelProvider extends PanelProvider
             ->plugins([
                 \Hasnayeen\Themes\ThemesPlugin::make(),
             ])
+
+            //->spa()
                         
             ->navigationGroups([
                 NavigationGroup::make()
