@@ -14,20 +14,129 @@
     font-family:Arial, sans-serif;
 ">
 
-<nav style="height:64px; background:#E6EB18; display:flex; align-items:center; padding:0 34px; border-bottom:2px solid #111111; position:relative; overflow:hidden;">
-    <div style="position:absolute; right:0; top:0; width:360px; height:64px; background:repeating-linear-gradient(-45deg,#111111 0px,#111111 30px,#E6EB18 30px,#E6EB18 54px); clip-path:polygon(18% 0,100% 0,100% 100%,0 100%); z-index:1;"></div>
+<nav
+    style="
+        height:64px;
+        background:#E6EB18;
+        display:flex;
+        align-items:center;
+        justify-content:space-between;
+        padding:0 34px;
+        border-bottom:2px solid #111111;
+        position:relative;
+        overflow:hidden;
+    "
+>
 
-    <div style="display:flex; align-items:center; gap:14px; position:relative; z-index:2;">
-        <div style="background:#1f1f1f; color:#f5f5f5; padding:10px 14px; border-radius:10px; font-weight:bold; border:1px solid #404040;">EB</div>
-        <strong style="color:#111111; font-size:18px;">Endfield Blueprint</strong>
+    <!-- Hazard Stripe -->
+    <div
+        style="
+            position:absolute;
+            right:0;
+            top:0;
+            width:360px;
+            height:64px;
+            background:repeating-linear-gradient(
+                -45deg,
+                #111111 0px,
+                #111111 30px,
+                #E6EB18 30px,
+                #E6EB18 54px
+            );
+            clip-path:polygon(18% 0,100% 0,100% 100%,0 100%);
+            pointer-events:none;
+            z-index:1;
+        ">
     </div>
 
-    <div style="position:absolute; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:34px; z-index:2;">
-        <a href="{{ route('dashboard') }}" style="color:#111111; text-decoration:none; font-weight:700;">Dashboard</a>
-        <a href="{{ route('items.index') }}" style="color:#111111; text-decoration:none;">Factory DB</a>
-        <a href="{{ route('map') }}" style="color:#111111; text-decoration:none; padding-bottom:4px;">Map</a>
-        <a href="{{ route('tracker.index') }}" style="color:#111111; text-decoration:none;">Tracker</a>
+    <!-- Logo -->
+    <div
+        style="
+            display:flex;
+            align-items:center;
+            gap:14px;
+            z-index:2;
+            flex-shrink:0;
+        "
+    >
+        <img
+            src="{{ asset('images/HG.webp') }}"
+            alt="Hypergryph"
+            style="
+                width:48px;
+                height:48px;
+            "
+        >
+
+        <div
+            style="
+                display:flex;
+                flex-direction:column;
+                line-height:1.1;
+            "
+        >
+            <span
+                style="
+                    font-size:18px;
+                    font-weight:700;
+                    color:#111111;
+                "
+            >
+                Endfield Industries
+            </span>
+
+            <span
+                style="
+                    font-size:11px;
+                    color:#444;
+                    letter-spacing:1px;
+                    text-transform:uppercase;
+                "
+            >
+                Endfield Factory Blueprint System
+            </span>
+        </div>
     </div>
+
+    <!-- Navigation -->
+    <div
+        style="
+            display:flex;
+            align-items:center;
+            gap:34px;
+            margin-left:48px;
+            margin-right:220px;
+            z-index:2;
+        "
+    >
+        <a href="{{ route('dashboard') }}"
+            style="color:#111111; text-decoration:none;">
+            Dashboard
+        </a>
+
+        <a href="{{ route('items.index') }}"
+            style="color:#111111; text-decoration:none;">
+            Factory DB
+        </a>
+
+        <a href="{{ route('map') }}"
+            style="color:#111111; text-decoration:none;font-weight:700">
+            Map
+        </a>
+
+        <a href="{{ route('tracker.index') }}"
+            style="
+                color:#111111;
+                text-decoration:none;
+                background:#E6EB18;
+                padding:0 10px;
+                position:relative;
+                z-index:2;
+            ">
+            Tracker
+        </a>
+    </div>
+
 </nav>
 
 <main style="padding:36px; max-width:1300px; margin:auto;">

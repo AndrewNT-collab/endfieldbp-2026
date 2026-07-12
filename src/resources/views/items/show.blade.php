@@ -6,15 +6,54 @@
 
 <body style="
 margin:0;
-background:#101010;
-color:white;
-font-family:Arial,sans-serif;
 padding:40px;
+font-family:Arial,sans-serif;
+color:white;
+
+background:
+radial-gradient(circle at top right,
+rgba(230,235,24,.06),
+transparent 35%),
+linear-gradient(
+180deg,
+#1b1b1b 0%,
+#111111 45%,
+#0a0a0a 100%
+);
 ">
+
+<div style="
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:4px;
+background:#E6EB18;
+box-shadow:0 0 18px rgba(230,235,24,.45);
+z-index:999;
+"></div>
+
+<div style="
+position:fixed;
+inset:0;
+pointer-events:none;
+opacity:.025;
+background:
+repeating-linear-gradient(
+-45deg,
+#fff100 0px,
+#fff100 24px,
+transparent 24px,
+transparent 56px
+);
+z-index:0;
+"></div>
 
 <div style="
 max-width:1400px;
 margin:auto;
+position:relative;
+z-index:2;
 ">
     <a href="{{ route('items.index') }}"
     style="

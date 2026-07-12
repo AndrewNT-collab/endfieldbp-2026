@@ -144,12 +144,19 @@ AOS.init({
         </a>
 
         <a href="{{ route('tracker.index') }}"
-            style="color:#111111; text-decoration:none; text-shadow:-1px -1px 0 #fff100, 1px -1px 0 #fff100, -1px 1px 0 #fff100, 1px 1px 0 #fff100;">
+            style="
+                color:#111111;
+                text-decoration:none;
+                background:#E6EB18;
+                padding:0 10px;
+                position:relative;
+                z-index:2;
+            ">
             Tracker
         </a>
-    </div>
+            </div>
 
-</nav>
+        </nav>
 
 <main style="padding:36px; max-width:1180px; margin:auto;">
     @auth
