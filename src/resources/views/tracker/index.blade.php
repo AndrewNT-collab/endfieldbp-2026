@@ -118,7 +118,7 @@ AOS.init({
             align-items:center;
             gap:34px;
             margin-left:48px;
-            margin-right:220px;
+            margin-right:400px;
             z-index:2;
         "
     >
