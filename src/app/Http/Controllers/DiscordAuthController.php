@@ -12,12 +12,12 @@ class DiscordAuthController extends Controller
 {
     public function redirect()
     {
-        return Socialite::driver('discord')->redirect();
+        return Socialite::driver('discord')->stateless()->redirect();
     }
 
     public function callback()
     {
-        $discord = Socialite::driver('discord')->user();
+        $discord = Socialite::driver('discord')->stateless()->user();
 
         $user = User::updateOrCreate(
             [
