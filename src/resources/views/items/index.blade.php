@@ -187,7 +187,7 @@ AOS.init({
     @if($item->image)
 
     <img 
-    src="{{ asset('storage/'.$item->image) }}"
+    src="{{ url('storage/'.$item->image) }}"
     style="
     width:100%;
     height:100%;
